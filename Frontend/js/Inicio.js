@@ -1,6 +1,11 @@
 document.getElementById("btnContinuar").addEventListener("click", () => { 
     const nombre = document.getElementById("nombre"); 
 
+    if (!nombre.value.trim()) {
+        alert("Por favor ingresa tu nombre.");
+        return;
+    }
+
     fetch("http://localhost:3000/continuar", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -11,6 +16,7 @@ document.getElementById("btnContinuar").addEventListener("click", () => {
         if (data.error) {  
             alert(data.error);
         } else {
+            localStorage.setItem('nombreUsuario', nombre.value.trim());
             window.location.href = "Productos.html"; 
         }
     })

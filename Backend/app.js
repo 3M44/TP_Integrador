@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.post('/continuar', (req, res) => {
     const { nombre } = req.body;
 
-    if (nombre == "") {
+    if (nombre.trim() == "") {
         return res.status(400).json({ error: "El nombre es obligatorio" });
     }
 
