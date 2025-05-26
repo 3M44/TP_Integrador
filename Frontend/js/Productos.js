@@ -1,27 +1,48 @@
-// productos.js
+document.addEventListener('DOMContentLoaded', () => {
+    let categoriaMostrada = "Juegos"
+    const cambiar = document.getElementById('cambiar-categoria');
 
-async function obtenerProductos() {
-    try {
-        const respuesta = await fetch('http://localhost:3000/productos');
-        if (!respuesta.ok) throw new Error('Error al obtener productos');
-        const datos = await respuesta.json();
-        return datos.map(
-            prod => new Producto(prod.id, prod.nombre, prod.precio, prod.imagen, prod.categoria, prod.activo)
-        );
-    } catch (error) {
-        console.error(error);
-        return [];
-    }
-}
+    const cargarProductos = async () => {
+        const contenedor = document.getElementById('contenedor-productos');
+        contenedor.innerHTML = "";
 
-async function mostrarProductos() {
-    const contenedor = document.getElementById('contenedor-productos');
-    const productos = await obtenerProductos();
-    contenedor.innerHTML = "";
+        try {
+            // Trae los productos desde la API
+            const response = await fetch('http://localhost:3000/productos');
+            const datos = await response.json();
 
-    productos.forEach(producto => {
-        contenedor.appendChild(producto.createHTMLElement());
+            // Mapea los datos en instancias de Producto
+            const productos = datos.map(
+                prod => new Producto(prod.id, prod.nombre, prod.precio, prod.imagen, prod.categoria, prod.activo, prod.cantidad)
+            );
+
+            // Renderiza cada producto
+            productos.forEach(producto => {
+                if (producto.categoria == categoriaMostrada ) {
+                    contenedor.appendChild(producto.createHTMLElement());
+                }
+            });
+
+        } catch (error) {
+            console.error('Error al obtener productos:', error);
+        }
+    };
+
+    cambiar.addEventListener('change', () => {
+        switch (cambiar.value){
+            case 'Juegos':
+                categoriaMostrada = "Juegos";
+                cargarProductos();
+                console.log(categoriaMostrada);
+                break;
+            case 'Gift Card':
+                categoriaMostrada = "Gift Card";
+                cargarProductos();
+                console.log(categoriaMostrada);
+                break;
+        }   
     });
-}
 
-document.addEventListener('DOMContentLoaded', mostrarProductos);
+
+    cargarProductos();
+});
