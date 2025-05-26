@@ -2,25 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameGift - Productos</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Productos</title>
+    <style>
+        #contenedor-productos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .tarjeta-producto {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 12px;
+            width: 200px;
+            text-align: center;
+            background: #f9f9f9;
+        }
+        .img-producto {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
-
-    <h1>Bienvenido a GameGift</h1>
-    <h2>Desarrollado por: Emanuel Mendoza</h2>
-    <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
-
-    <nav>
-        <a href="Inicio.html">Inicio</a>
-        <a href="Productos.html">Productos</a>
-        <a href="Carrito.html">Carrito</a>
-        <a href="Ticket.html">Ticket</a>
-    </nav>
-
-    
-
-</body>
+    <h1>Lista de Productos</h1>
+    <div id="contenedor-productos"></div>
+    <script src="js/Producto.js"></script>
     <script src="js/Productos.js"></script>
+</body>
 </html>
