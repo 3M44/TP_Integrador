@@ -1,6 +1,6 @@
 function generarTicket() {
     const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Cliente desconocido';
+    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Unknow';
     const contenedor = document.getElementById('ticket-info');
     const fecha = new Date().toLocaleDateString();
     const empresa = "GameGift";
@@ -12,9 +12,9 @@ function generarTicket() {
 
     let total = 0;
     let html = `
-        <p><strong>Empresa:</strong> ${empresa}</p>
-        <p><strong>Cliente:</strong> ${nombreUsuario}</p>
-        <p><strong>Fecha:</strong> ${fecha}</p>
+        <p>Empresa: ${empresa}</p>
+        <p>Cliente: ${nombreUsuario}</p>
+        <p>Fecha: ${fecha}</p>
         <hr>
         <h3>Productos:</h3>
     `;
@@ -24,7 +24,7 @@ function generarTicket() {
         total += subtotal;
         html += `
             <p>
-                ${p.nombre} - Cantidad: ${p.stock} - Precio: $${p.precio} - Subtotal: $${subtotal}
+                Nombre: ${p.nombre} - Cantidad: ${p.stock} - Precio: $${p.precio} - Subtotal: $${subtotal}
             </p>
         `;
     });
