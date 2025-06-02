@@ -35,7 +35,6 @@ class Producto {
         if (existente.stock > 1) {
             existente.stock -= 1;
         } else {
-            // Si el stock es 1 o menos, lo eliminamos del carrito
             productos = productos.filter(p => p.id !== producto.id);
         }
         localStorage.setItem('productosComprados', JSON.stringify(productos));
@@ -64,7 +63,7 @@ class Producto {
         productoDiv.className = 'tarjeta-producto';
 
         const imagen = document.createElement('img');
-        imagen.src = 'http://localhost:3000/' + this.imagen; // <-- Así
+        imagen.src = 'http://localhost:3000/' + this.imagen; 
         imagen.alt = this.nombre;
         imagen.className = 'img-producto';
 
@@ -80,7 +79,7 @@ class Producto {
        const cantidadSpan = document.createElement('span');
         let productosEnCarrito = JSON.parse(localStorage.getItem('productosComprados')) || [];
         let productoEnCarrito = productosEnCarrito.find(p => p.id === this.id);
-        const cantidadActual = productoEnCarrito ? productoEnCarrito.stock : 0; // <-- CAMBIA ESTO
+        const cantidadActual = productoEnCarrito ? productoEnCarrito.stock : 0; 
         cantidadSpan.textContent = `Cantidad: ${cantidadActual}`;
 
         const guardarBtn = document.createElement('button');
@@ -89,7 +88,7 @@ class Producto {
             Producto.comprarProducto(this);
             let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
             let prodActual = productos.find(p => p.id === this.id);
-            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.stock : 0}`; // <-- CAMBIA ESTO
+            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.stock : 0}`; 
         });
 
         const restarBtn = document.createElement('button');
@@ -98,7 +97,7 @@ class Producto {
             Producto.sacarProducto(this);
             let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
             let prodActual = productos.find(p => p.id === this.id);
-            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.stock : 0}`; // <-- CAMBIA ESTO
+            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.stock : 0}`; 
         });
 
 

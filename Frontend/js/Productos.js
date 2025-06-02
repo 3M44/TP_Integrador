@@ -7,16 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedor.innerHTML = "";
 
         try {
-            // Trae los productos desde la API
             const response = await fetch('http://localhost:3000/productos');
             const datos = await response.json();
 
-            // Mapea los datos en instancias de Producto
             const productos = datos.map(
                 prod => new Producto(prod.id, prod.nombre, prod.precio, prod.imagen, prod.categoria, prod.activo, prod.cantidad)
             );
 
-            // Renderiza cada producto
             productos.forEach(producto => {
                 if (producto.categoria == categoriaMostrada ) {
                     contenedor.appendChild(producto.createHTMLElement());

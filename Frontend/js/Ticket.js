@@ -40,7 +40,7 @@ function generarTicket() {
 finalizarCompra = () => {
     const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
     if (productos.length === 0) {
-        alert("No hay productos en el carrito para finalizar la compra.");
+        btnFinalizar.disabled = true;
         return;
     }
     
