@@ -1,11 +1,6 @@
 document.getElementById("btnContinuar").addEventListener("click", () => { 
     const nombre = document.getElementById("nombre"); 
 
-    if (!nombre.value.trim()) {
-        alert("Por favor ingresa tu nombre.");
-        return;
-    }
-
     fetch("http://localhost:3000/continuar", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,3 +17,27 @@ document.getElementById("btnContinuar").addEventListener("click", () => {
     })
     .catch(error => console.error("Error en la petición:", error));
 });
+
+function ajustarLinks() {
+  const nombreUsuario = localStorage.getItem('nombreUsuario');
+  const linkCarrito = document.getElementById('linkCarrito');
+  const linkTicket = document.getElementById('linkTicket');
+  const linkProductos = document.getElementById('linkProductos');
+
+  if (linkCarrito) {
+    linkCarrito.style.pointerEvents = 'none';
+    linkCarrito.style.color = 'gray';
+  }
+
+  if (linkTicket) {
+    linkTicket.style.pointerEvents = 'none';
+    linkTicket.style.color = 'gray';
+  }
+
+  if (linkProductos) {
+    linkProductos.style.pointerEvents = 'none';
+    linkProductos.style.color = 'gray';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', ajustarLinks);

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>GameGift - Productos</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/productos.css">
+    <link rel="stylesheet" href="css/global.css">
 </head>
 <body>
 
@@ -11,20 +12,25 @@
     <h2>Desarrollado por: Emanuel Mendoza</h2>
     <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
     <nav>
-        <a href="Inicio.html">Inicio</a>
-        <a href="Productos.html">Productos</a>
-        <a href="Carrito.html" dissable>Carrito</a>
-        <a href="Ticket.html">Ticket</a>
+        <a href="Inicio.html" id="linkInicio">Inicio</a>
+        <a href="Productos.html" id="linkProductos">Productos</a>
+        <a href="Carrito.html" id="linkCarrito">Carrito</a>
+        <a href="Ticket.html" id="linkTicket">Ticket</a>
     </nav>
     <div class="barra-superior">
+    <div class="filtro-categoria">
+        <h4>Categoría:</h4>
         <select id="cambiar-categoria">
+            <option value="Todos" selected>Todos</option>
             <option value="Juegos">Juegos</option>
             <option value="Gift Card">Gift Cards</option>
         </select>
+    </div>
         <button onclick="window.location.href='Carrito.html'" style="background: none; border: none; cursor: pointer;">
             <img src="http://localhost:3000/Imagenes/carrito/Carrito.png" alt="Carrito" width="32" height="32">
         </button>
     </div>
+
     <section id="principal">
         <div id="contenedor-productos" >
         </div>

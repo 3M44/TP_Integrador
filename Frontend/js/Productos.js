@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let categoriaMostrada = "Juegos"
+    let categoriaMostrada = "Todos"
     const cambiar = document.getElementById('cambiar-categoria');
 
     const cargarProductos = async () => {
@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             productos.forEach(producto => {
-                if (producto.categoria == categoriaMostrada ) {
+                if (categoriaMostrada === "Todos" && producto.activo == 1) {
+                    contenedor.appendChild(producto.createHTMLElement());
+                } else if (producto.categoria == categoriaMostrada && producto.activo == 1) {
                     contenedor.appendChild(producto.createHTMLElement());
                 }
             });
@@ -27,19 +29,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cambiar.addEventListener('change', () => {
         switch (cambiar.value){
+            case 'Todos':
+                categoriaMostrada = "Todos";
+                cargarProductos();
+                break;
             case 'Juegos':
                 categoriaMostrada = "Juegos";
                 cargarProductos();
-                console.log(categoriaMostrada);
                 break;
             case 'Gift Card':
                 categoriaMostrada = "Gift Card";
                 cargarProductos();
-                console.log(categoriaMostrada);
                 break;
         }   
     });
 
-
+    ajustarLinks();
     cargarProductos();
 });
+
+function ajustarLinks() {
+    const linkCarrito = document.getElementById('linkCarrito');
+    const linkTicket = document.getElementById('linkTicket');
+    const linkInicio = document.getElementById('linkInicio');
+
+    linkInicio.addEventListener('click', (e) => {
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+    });
+
+    if (linkTicket) {
+        linkTicket.style.pointerEvents = 'none';
+        linkTicket.style.color = 'gray';
+    }
+
+    if (linkCarrito) {
+        linkCarrito.style.pointerEvents = 'none';
+        linkCarrito.style.color = 'gray';
+    }
+}

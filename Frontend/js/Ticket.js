@@ -1,64 +1,106 @@
-function generarTicket() {
+function generarDatosTicket() {
     const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Unknow';
-    const contenedor = document.getElementById('ticket-info');
+    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Unknown';
     const fecha = new Date().toLocaleDateString();
     const empresa = "GameGift";
 
-    if (productos.length === 0) {
+    let total = 0;
+    productos.forEach(p => {
+        total += p.precio * p.stock;
+    });
+
+    return {
+        cliente: nombreUsuario,
+        empresa,
+        fecha,
+        productos,
+        total: total.toFixed(2)
+    };
+}
+
+function mostrarTicketHTML() {
+    const datos = generarDatosTicket();
+    const contenedor = document.getElementById('ticket-info');
+
+    if (datos.productos.length === 0) {
         contenedor.innerHTML = '<p>No hay productos en el carrito.</p>';
         return;
     }
 
-    let total = 0;
     let html = `
-        <p>Empresa: ${empresa}</p>
-        <p>Cliente: ${nombreUsuario}</p>
-        <p>Fecha: ${fecha}</p>
+        <p>Empresa: ${datos.empresa}</p>
+        <p>Cliente: ${datos.cliente}</p>
+        <p>Fecha: ${datos.fecha}</p>
         <hr>
         <h3>Productos:</h3>
     `;
 
-    productos.forEach(p => {
+    datos.productos.forEach(p => {
         const subtotal = p.precio * p.stock;
-        total += subtotal;
         html += `
             <p>
-                Nombre: ${p.nombre} - Cantidad: ${p.stock} - Precio: $${p.precio} - Subtotal: $${subtotal}
+                Nombre: ${p.nombre} - Cantidad: ${p.stock} - Precio Unidad: $${p.precio} - Subtotal: $${subtotal.toFixed(2)}
             </p>
         `;
     });
 
     html += `
         <hr>
-        <h3>Total: $${total}</h3>
+        <h3>Total: $${datos.total}</h3>
     `;
-
     contenedor.innerHTML = html;
 }
 
-finalizarCompra = () => {
-    const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-    if (productos.length === 0) {
-        btnFinalizar.disabled = true;
-        return;
+async function finalizarCompra() {
+    const ticket = generarDatosTicket();
+
+    try {
+        const response = await fetch('http://localhost:3000/', { // Falta implementar el backend y descarga del ticket
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ticket)
+        });
+
+        if (!response.ok) {
+            alert("Error al enviar el ticket al backend");
+            return;
+        }
+
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+        window.location.href = "Inicio.html";
+    } catch (error) {
+        console.error("Error al finalizar compra:", error);
+        alert("Error de conexión con el backend");
     }
-    
-    //faltra lógica para enviar el ticket a la API y guardarlo en el servidor
-
-    localStorage.removeItem('productosComprados');
-    localStorage.removeItem('nombreUsuario');
-
-    window.location.href = "Inicio.html"; 
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnFinalizar = document.getElementById('btnFinalizar');
+    const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
     
+    if (productos.length === 0) {
+        btnFinalizar.disabled = true;
+        return;
+    }
+
     btnFinalizar.addEventListener('click', () => {
         finalizarCompra();
     });
+
+    ajustarLinks();
     
-    generarTicket();
+    mostrarTicketHTML();
 });
 
+
+function ajustarLinks() {
+    const linkInicio = document.getElementById('linkInicio');
+
+    linkInicio.addEventListener('click', () => {
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+    });
+}
