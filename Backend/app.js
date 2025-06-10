@@ -1,37 +1,29 @@
+// Backend/app.js
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
+const sequelize = require('./config/db');
+const authRoutes = require('./Rutas/auth');
+const productosRoutes = require('./Rutas/productos');
+
 const app = express();
-const port = 3000;
-const db = require('./config/db');
-
 app.use(cors());
-app.use(express.json()); 
-app.use(express.static(__dirname + '/Estaticos'));
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Servidor Express en funcionamiento');
-});
+app.use('/uploads_juegos', express.static(path.join(__dirname, 'Estaticos', 'Imagenes', 'portada_Juegos')));
+app.use('/uploads_cards', express.static(path.join(__dirname, 'Estaticos', 'Imagenes', 'portada_gifCards')));
 
-app.post('/continuar', (req, res) => {
-    const { nombre } = req.body;
+app.use('/api/auth', authRoutes);
+app.use('/api/productos', productosRoutes);
 
-    if (nombre.trim() == "") {
-        return res.status(400).json({ error: "El nombre es obligatorio" });
-    }
+sequelize.authenticate()
+  .then(() => console.log('Conexión a la base de datos exitosa'))
+  .catch(error => console.error('Error al conectar la base de datos:', error));
 
-    console.log("Nombre recibido:", nombre); 
-    res.json({ status: "ok", mensaje: `Nombre ${nombre} recibido` });
-});
+sequelize.sync().then(() => {
+  console.log('Base de datos sincronizada');
 
-app.get('/productos', (req, res) => {
-  db.query('SELECT * FROM productos', (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: "Error en la consulta de productos" });
-    }
-    res.json(results);
+  app.listen(3000, () => {
+    console.log('Servidor funcionando en http://localhost:3000');
   });
-});
-
-app.listen(port, () => {
-  console.log(`Servidor Express escuchando en http://localhost:${port}`);
 });
