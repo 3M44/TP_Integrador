@@ -1,0 +1,13 @@
+module.exports = (sequelize, DataTypes) => {
+    const Venta = sequelize.define('Venta', {
+        fecha: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
+        total: { type: DataTypes.FLOAT, allowNull: false }
+    });
+
+    Venta.associate = (models) => {
+        Venta.belongsTo(models.Usuario, { foreignKey: 'UsuarioId' });
+        Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' });
+    };
+
+    return Venta;
+};

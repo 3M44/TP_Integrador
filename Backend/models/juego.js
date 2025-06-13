@@ -1,0 +1,26 @@
+module.exports = (sequelize, DataTypes) => {
+    const Juego = sequelize.define('Juego', {
+        nombre: { type: DataTypes.STRING, allowNull: false },
+        precio: { type: DataTypes.FLOAT, allowNull: false },
+        empresa: { type: DataTypes.STRING, allowNull: false },
+        consola: { type: DataTypes.STRING, allowNull: false },
+        requerimientos_minimos: { type: DataTypes.STRING, allowNull: false },
+        stock: { type: DataTypes.INTEGER, allowNull: false },
+        genero: { type: DataTypes.STRING, allowNull: false },
+        puntuacion_general: { type: DataTypes.FLOAT, allowNull: false },
+        activo: { type: DataTypes.BOOLEAN, defaultValue: true } ,
+        imagen: { type: DataTypes.STRING, allowNull: true }
+    });
+
+
+    // Hook para actualizar el campo "activo" automáticamente
+    Juego.beforeSave((juego, options) => {
+        if (juego.stock <= 0) {
+            juego.activo = false;
+        } else {
+            juego.activo = true;
+        }
+    });
+
+    return Juego;
+};
