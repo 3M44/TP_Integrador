@@ -23,6 +23,7 @@ app.use('/imagenes/juegos', express.static('Estaticos/Imagenes/portada_juegos'))
 // Servir imágenes de gift cards
 app.use('/imagenes/giftcards', express.static('Estaticos/Imagenes/portada_giftCards'));
 
+app.use('/imagenes/logo', express.static('Estaticos/Imagenes/logo'));
 
 
 
