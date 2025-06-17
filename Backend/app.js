@@ -30,8 +30,6 @@ app.use('/imagenes/logo', express.static('Estaticos/Imagenes/logo'));
 app.use('/imagenes/carrito', express.static('Estaticos/Imagenes/carrito'));
 
 
-
-
 sequelize.sync({ force: false })
   .then(() =>{
      console.log('Base de datos sincronizada'),

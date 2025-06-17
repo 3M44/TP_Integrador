@@ -70,13 +70,11 @@ function ajustarLinks() {
     });
 
     if (linkTicket) {
-        console.log('Desactivando ticket');
         linkTicket.style.pointerEvents = 'none';
         linkTicket.style.color = 'gray';
     }
 
     if (linkCarrito) {
-        console.log('Desactivando carrito');
         linkCarrito.style.pointerEvents = 'none';
         linkCarrito.style.color = 'gray';
     }
