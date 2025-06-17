@@ -25,3 +25,20 @@
 #btnFinalizar:hover {
   background: #294bdb;
 }
+
+@media (max-width: 600px) {
+  #ticket-info {
+    max-width: 98%;
+    padding: 14px 4px;
+    font-size: 1rem;
+    margin: 16px auto;
+  }
+
+  #btnFinalizar {
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    padding: 10px 0;
+    margin: 18px auto 0 auto;
+  }
+}
