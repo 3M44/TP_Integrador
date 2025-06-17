@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { registrarCliente, registrarAdmin, loginAdmin } = require('../controladores/controladorAuth');
+const { registrarCliente, registrarAdmin, loginAdmin } = require('../../controladores/api/controladorAuth');
 
 router.post('/registrar-cliente', registrarCliente);
 router.post('/registrar-admin', registrarAdmin);

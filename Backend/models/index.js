@@ -10,10 +10,19 @@ const GiftCard = require('./giftCard')(sequelize, require('sequelize').DataTypes
 const Venta = require('./venta')(sequelize, DataTypes);
 const VentaProducto = require('./ventaProducto')(sequelize, DataTypes);
 
-// Asociaciones
-Venta.associate({ Usuario, VentaProducto });
-VentaProducto.associate({ Venta });
 
+Usuario.hasMany(Venta, { foreignKey: 'UsuarioId' });
+Venta.belongsTo(Usuario, { foreignKey: 'UsuarioId' });
+
+
+Venta.hasMany(VentaProducto, { foreignKey: 'VentaId' });
+VentaProducto.belongsTo(Venta, { foreignKey: 'VentaId' });
+
+
+// Sincronización
+sequelize.sync({ alter: true })
+  .then(() => console.log('Tablas sincronizadas'))
+  .catch(err => console.error('Error sincronizando tablas:', err));
 
 // Exportar conexión y modelos
 module.exports = { sequelize, Usuario, Juego, GiftCard };

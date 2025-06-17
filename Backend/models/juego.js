@@ -13,13 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     });
 
 
-    // Hook para actualizar el campo "activo" automáticamente
+    // Hook para desactivar el juego automaticamente
     Juego.beforeSave((juego, options) => {
         if (juego.stock <= 0) {
             juego.activo = false;
-        } else {
-            juego.activo = true;
-        }
+        } 
     });
 
     return Juego;

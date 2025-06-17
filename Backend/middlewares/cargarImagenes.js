@@ -1,15 +1,14 @@
-// middlewares/multerConfig.js
 const multer = require('multer');
 const path = require('path');
 
-// Extensiones permitidas
-const filtroArchivo = (req, file, cb) => {
-    const tipoArchivo = /jpeg|jpg|png/;
-    const extName = tipoArchivo.test(path.extname(file.originalname).toLowerCase());
-    const mimeType = tipoArchivo.test(file.mimetype);
+// Filtro para tipos permitidos
+const fileFilter = (req, file, cb) => {
+    const tiposPermitidos = /jpeg|jpg|png/;
+    const extName = tiposPermitidos.test(path.extname(file.originalname).toLowerCase());
+    const mimeType = tiposPermitidos.test(file.mimetype);
 
     if (extName && mimeType) {
-        return cb(null, true);
+        cb(null, true);
     } else {
         cb(new Error('Error: Solo se permiten imágenes JPEG, JPG y PNG'));
     }
@@ -17,18 +16,17 @@ const filtroArchivo = (req, file, cb) => {
 
 // Configuración para juegos
 const storageJuegos = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './Estaticos/Imagenes/portada_juegos'),
+    destination: (req, file, cb) => cb(null, './estaticos/imagenes/portada_juegos'),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 
 // Configuración para gift cards
 const storageGiftCards = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './Estaticos/Imagenes/portada_giftCards'),
+    destination: (req, file, cb) => cb(null, './estaticos/imagenes/portada_giftcards'),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 
-// Instancias de multer con filtro
-const imagenJuegos = multer({ storage: storageJuegos, filtroArchivo });
-const imagenGiftCards = multer({ storage: storageGiftCards, filtroArchivo });
+const imagenJuegos = multer({ storage: storageJuegos, fileFilter });
+const imagenGiftCards = multer({ storage: storageGiftCards, fileFilter });
 
 module.exports = { imagenJuegos, imagenGiftCards };

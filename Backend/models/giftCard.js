@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         activo: { type: DataTypes.BOOLEAN, defaultValue: true } 
     });
 
-     // Hook para actualizar el campo "activo" automáticamente
+     // Hook para desactivar giftcard automaticamente
     GiftCard.beforeSave((giftCard, options) => {
         if (giftCard.stock <= 0) {
             giftCard.activo = false;
-        } else {
-            giftCard.activo = true;
-        }
+        } 
     });
 
     return GiftCard;

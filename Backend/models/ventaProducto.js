@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     VentaProducto.associate = (models) => {
     VentaProducto.belongsTo(models.Venta, { foreignKey: 'VentaId' });
+    
   };
 
 

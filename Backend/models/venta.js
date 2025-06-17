@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Venta.associate = (models) => {
         Venta.belongsTo(models.Usuario, { foreignKey: 'UsuarioId' });
+        models.Usuario.hasMany(Venta, { foreignKey: 'UsuarioId' });
         Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' });
     };
 
