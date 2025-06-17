@@ -1,70 +1,54 @@
-document.addEventListener('DOMContentLoaded', () => {
-    let categoriaMostrada = "Todos"
-    const cambiar = document.getElementById('cambiar-categoria');
+const productos = [ 
+  { nombre: "Producto 1", precio: 50, categoria: "games" },
+  { nombre: "Producto 2", precio: 75, categoria: "accesorios" },
+  { nombre: "Producto 3", precio: 30, categoria: "games" }
+];
 
-    const cargarProductos = async () => {
-        const contenedor = document.getElementById('contenedor-productos');
-        contenedor.innerHTML = "";
+function mostrarProductos(lista) {
+  const contenedor = document.getElementById("contenedor-productos");
+  contenedor.innerHTML = "";
 
-        try {
-            const response = await fetch('http://localhost:3000/productos');
-            const datos = await response.json();
+  lista.forEach(producto => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-            const productos = datos.map(
-                prod => new Producto(prod.id, prod.nombre, prod.precio, prod.imagen, prod.categoria, prod.activo, prod.cantidad)
-            );
+    card.innerHTML = `
+      <h3>${producto.nombre}</h3>
+      <p>$${producto.precio}</p>
+      <button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Comprar</button>
+    `;
 
-            productos.forEach(producto => {
-                if (categoriaMostrada === "Todos" && producto.activo == 1) {
-                    contenedor.appendChild(producto.createHTMLElement());
-                } else if (producto.categoria == categoriaMostrada && producto.activo == 1) {
-                    contenedor.appendChild(producto.createHTMLElement());
-                }
-            });
-
-        } catch (error) {
-            console.error('Error al obtener productos:', error);
-        }
-    };
-
-    cambiar.addEventListener('change', () => {
-        switch (cambiar.value){
-            case 'Todos':
-                categoriaMostrada = "Todos";
-                cargarProductos();
-                break;
-            case 'Juegos':
-                categoriaMostrada = "Juegos";
-                cargarProductos();
-                break;
-            case 'Gift Card':
-                categoriaMostrada = "Gift Card";
-                cargarProductos();
-                break;
-        }   
-    });
-
-    ajustarLinks();
-    cargarProductos();
-});
-
-function ajustarLinks() {
-    const linkCarrito = document.getElementById('linkCarrito');
-    const linkTicket = document.getElementById('linkTicket');
-    const linkInicio = document.getElementById('linkInicio');
-
-    linkInicio.addEventListener('click', (e) => {
-        localStorage.removeItem('productosComprados');
-        localStorage.removeItem('nombreUsuario');
-    });
-
-    if (linkTicket) {
-        linkTicket.style.pointerEvents = 'none';
-        linkTicket.style.color = 'gray';
-    }
-
-    if (linkCarrito) {
-        linkCarrito.style.pointerEvents = 'none';
-        linkCarrito.style.color = 'gray';
-    }
+    contenedor.appendChild(card);
+  });
 }
+
+function filtrar(categoria) {
+  if (categoria === "todos") {
+    mostrarProductos(productos);
+  } else {
+    const filtrados = productos.filter(p => p.categoria === categoria);
+    mostrarProductos(filtrados);
+  }
+}
+
+function agregarAlCarrito(nombre, precio) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  // Verificamos si ya existe el producto
+  const productoExistente = carrito.find(p => p.nombre === nombre);
+
+  if (productoExistente) {
+    productoExistente.cantidad += 1;
+  } else {
+    carrito.push({ nombre, precio, cantidad: 1 });
+  }
+
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  alert(`Agregado ${nombre} al carrito`);
+}
+
+
+
+window.onload = () => {
+  mostrarProductos(productos);
+};

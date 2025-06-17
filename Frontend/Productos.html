@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>GameGift - Productos</title>
-    <link rel="stylesheet" href="css/productos.css">
-    <link rel="stylesheet" href="css/global.css">
+  <meta charset="UTF-8">
+  <title>Game Shop - Productos</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/carrito.js" defer></script>
 </head>
 <body>
+  <header class="header">
+    <img src="img/logo.png" alt="Game Shop" class="logo">
+    <h1>Game Shop</h1>
+    <a href="carrito.html" class="btn-filtro" style="margin-left:auto">🛒 Ver Carrito</a>
+  </header>
 
-    <h1>GameGift</h1>
-    <h2>Desarrollado por: Emanuel Mendoza</h2>
-    <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
-    <nav>
-        <a href="Inicio.html" id="linkInicio">Inicio</a>
-        <a href="Productos.html" id="linkProductos">Productos</a>
-        <a href="Carrito.html" id="linkCarrito">Carrito</a>
-        <a href="Ticket.html" id="linkTicket">Ticket</a>
-    </nav>
-    <div class="barra-superior">
-    <div class="filtro-categoria">
-        <h4>Categoría:</h4>
-        <select id="cambiar-categoria">
-            <option value="Todos" selected>Todos</option>
-            <option value="Juegos">Juegos</option>
-            <option value="Gift Card">Gift Cards</option>
-        </select>
-    </div>
-        <button onclick="window.location.href='Carrito.html'" style="background: none; border: none; cursor: pointer;">
-            <img src="http://localhost:3000/Imagenes/carrito/Carrito.png" alt="Carrito" width="32" height="32">
-        </button>
-    </div>
+  <main>
+    <div class="center-content">
+      <div class="filtro">
+        <button class="btn-filtro">Todos</button>
+        <button class="btn-filtro">Games</button>
+        <button class="btn-filtro">Accesorios</button>
+      </div>
 
-    <section id="principal">
-        <div id="contenedor-productos" >
+      <div class="productos" id="lista-productos">
+        <div class="producto">
+          <p><strong>Producto 1</strong></p>
+          <p>$50</p>
+          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 1', 50)">Comprar</button>
         </div>
-    </section>
+        <div class="producto">
+          <p><strong>Producto 2</strong></p>
+          <p>$75</p>
+          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 2', 75)">Comprar</button>
+        </div>
+        <div class="producto">
+          <p><strong>Producto 3</strong></p>
+          <p>$30</p>
+          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 3', 30)">Comprar</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
-    <script src="js/Producto.js"></script>
-    <script src="js/Productos.js"></script>
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Game Shop. División 331 | Profesores: Horacio Serrano, Ibrahim Rodríguez</p>
+      <p>Integrantes: Thiago Garcia, Emanuel Mendoza, Iván Ramunda</p>
+    </div>
+  </footer>
 </body>
+<script src="js/productos.js"></script>
 </html>
