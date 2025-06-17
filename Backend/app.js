@@ -29,8 +29,20 @@ app.use('/api/juegos', juegoRutas);
 // Rutas CRUD de giftcards
 app.use('/api/giftcards', rutasCards);
 
+<<<<<<< HEAD
 app.use('/imagenes/juegos', express.static(path.join(__dirname, 'Estaticos/Imagenes/juegos')));
 app.use('/imagenes/giftcards', express.static(path.join(__dirname, 'Estaticos/Imagenes/giftcards')));
+=======
+// Servir imágenes de juegos
+app.use('/imagenes/juegos', express.static('Estaticos/Imagenes/portada_juegos'));
+
+// Servir imágenes de gift cards
+app.use('/imagenes/giftcards', express.static('Estaticos/Imagenes/portada_giftCards'));
+
+app.use('/imagenes/logo', express.static('Estaticos/Imagenes/logo'));
+
+
+>>>>>>> 8614c6811f57aa37916f2fa93ed942bba50b2d93
 
 
 // Conexión con la base de datos
