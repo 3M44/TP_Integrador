@@ -27,8 +27,6 @@ app.use('/imagenes/giftcards', express.static('Estaticos/Imagenes/portada_giftCa
 
 app.use('/imagenes/logo', express.static('Estaticos/Imagenes/logo'));
 
-app.use('/imagenes/carrito', express.static('Estaticos/Imagenes/carrito'));
-
 
 sequelize.sync({ force: false })
   .then(() =>{
