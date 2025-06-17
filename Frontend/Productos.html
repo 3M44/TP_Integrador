@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <title>Game Shop - Productos</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script src="js/carrito.js" defer></script>
 </head>
 <body>
   <header class="header">
-    <img src="img/logo.png" alt="Game Shop" class="logo">
+    <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
     <h1>Game Shop</h1>
     <a href="carrito.html" class="btn-filtro" style="margin-left:auto">🛒 Ver Carrito</a>
   </header>
@@ -22,30 +21,18 @@
         <a href="ticket.html" id="linkTicket">Ticket</a>
       </nav>
 
-      <div class="filtro">
-        <button class="btn-filtro">Todos</button>
-        <button class="btn-filtro">Games</button>
-        <button class="btn-filtro">Accesorios</button>
-      </div>
-
-      <div class="productos" id="lista-productos">
-        <div class="producto">
-          <p><strong>Producto 1</strong></p>
-          <p>$50</p>
-          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 1', 50)">Comprar</button>
-        </div>
-        <div class="producto">
-          <p><strong>Producto 2</strong></p>
-          <p>$75</p>
-          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 2', 75)">Comprar</button>
-        </div>
-        <div class="producto">
-          <p><strong>Producto 3</strong></p>
-          <p>$30</p>
-          <button class="btn-comprar" onclick="agregarAlCarrito('Producto 3', 30)">Comprar</button>
-        </div>
+      <div class="filtro-categoria">
+        <h4>Categoría:</h4>
+        <select id="cambiar-categoria">
+            <option value="Todos" selected="">Todos</option>
+            <option value="Juegos">Juegos</option>
+            <option value="Gift Card">Gift Cards</option>
+        </select>
       </div>
     </div>
+    <section id="principal">
+        <div id="contenedor-productos"></div>
+      </section>
   </main>
 
   <footer class="footer">
@@ -55,5 +42,7 @@
     </div>
   </footer>
 </body>
-<script src="js/productos.js"></script>
+<script src="js/Juego.js"></script>
+<script src="js/GiftCard.js"></script>
+<script src="js/Productos.js"></script>
 </html>

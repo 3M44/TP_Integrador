@@ -1,54 +1,83 @@
-const productos = [ 
-  { nombre: "Producto 1", precio: 50, categoria: "games" },
-  { nombre: "Producto 2", precio: 75, categoria: "accesorios" },
-  { nombre: "Producto 3", precio: 30, categoria: "games" }
-];
+document.addEventListener('DOMContentLoaded', () => {
+    let categoriaMostrada = "Todos"
+    const cambiar = document.getElementById('cambiar-categoria');
 
-function mostrarProductos(lista) {
-  const contenedor = document.getElementById("contenedor-productos");
-  contenedor.innerHTML = "";
+    const cargarProductos = async () => {
+        const contenedor = document.getElementById('contenedor-productos');
+        contenedor.innerHTML = "";
 
-  lista.forEach(producto => {
-    const card = document.createElement("div");
-    card.className = "card";
+        try {
+            const responseJuegos = await fetch('http://localhost:3000/api/juegos');
+            const datosJuegos = await responseJuegos.json();
 
-    card.innerHTML = `
-      <h3>${producto.nombre}</h3>
-      <p>$${producto.precio}</p>
-      <button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Comprar</button>
-    `;
+            const responseCards = await fetch('http://localhost:3000/api/giftcards');
+            const datosCards = await responseCards.json();
 
-    contenedor.appendChild(card);
-  });
+            const juegos = datosJuegos.map(
+                prod => new Juego(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.requerimientos_minimos, prod.stock, prod.genero, prod.puntuacion_general, prod.activo, prod.imagen)
+            );
+
+            const cards = datosCards.map(
+                prod => new GiftCard(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.requerimientos_minimos, prod.stock,  prod.fecha_caducidad, prod.plataformas_disponibles, prod.imagen, prod.activo)
+            );
+
+            cards.forEach(producto => {
+                if (categoriaMostrada === "Todos" || categoriaMostrada == "Gift Card" && producto.activo == 1) {
+                    contenedor.appendChild(producto.createHTMLElement());
+                }
+            });
+
+            juegos.forEach(producto => {
+                if (categoriaMostrada === "Todos" || categoriaMostrada == "Juegos" && producto.activo == 1) {
+                    contenedor.appendChild(producto.createHTMLElement());
+                }
+            });
+
+        } catch (error) {
+            console.error('Error al obtener productos:', error);
+        }
+    };
+
+    cambiar.addEventListener('change', () => {
+        switch (cambiar.value){
+            case 'Todos':
+                categoriaMostrada = "Todos";
+                cargarProductos();
+                break;
+            case 'Juegos':
+                categoriaMostrada = "Juegos";
+                cargarProductos();
+                break;
+            case 'Gift Card':
+                categoriaMostrada = "Gift Card";
+                cargarProductos();
+                break;
+        }   
+    });
+
+    ajustarLinks();
+    cargarProductos();
+});
+
+function ajustarLinks() {
+    const linkCarrito = document.getElementById('linkCarrito');
+    const linkTicket = document.getElementById('linkTicket');
+    const linkInicio = document.getElementById('linkInicio');
+
+    linkInicio.addEventListener('click', (e) => {
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+    });
+
+    if (linkTicket) {
+        console.log('Desactivando ticket');
+        linkTicket.style.pointerEvents = 'none';
+        linkTicket.style.color = 'gray';
+    }
+
+    if (linkCarrito) {
+        console.log('Desactivando carrito');
+        linkCarrito.style.pointerEvents = 'none';
+        linkCarrito.style.color = 'gray';
+    }
 }
-
-function filtrar(categoria) {
-  if (categoria === "todos") {
-    mostrarProductos(productos);
-  } else {
-    const filtrados = productos.filter(p => p.categoria === categoria);
-    mostrarProductos(filtrados);
-  }
-}
-
-function agregarAlCarrito(nombre, precio) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-  // Verificamos si ya existe el producto
-  const productoExistente = carrito.find(p => p.nombre === nombre);
-
-  if (productoExistente) {
-    productoExistente.cantidad += 1;
-  } else {
-    carrito.push({ nombre, precio, cantidad: 1 });
-  }
-
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  alert(`Agregado ${nombre} al carrito`);
-}
-
-
-
-window.onload = () => {
-  mostrarProductos(productos);
-};

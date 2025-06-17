@@ -1,5 +1,6 @@
 function generarDatosTicket() {
     const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
+    const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Unknown';
     const fecha = new Date().toLocaleDateString();
     const empresa = "GameGift";
 
@@ -9,6 +10,7 @@ function generarDatosTicket() {
     });
 
     return {
+        cliente: nombreUsuario,
         empresa,
         fecha,
         productos,
@@ -27,6 +29,7 @@ function mostrarTicketHTML() {
 
     let html = `
         <p>Empresa: ${datos.empresa}</p>
+        <p>Cliente: ${datos.cliente}</p>
         <p>Fecha: ${datos.fecha}</p>
         <hr>
         <h3>Productos:</h3>
@@ -36,7 +39,7 @@ function mostrarTicketHTML() {
         const subtotal = p.precio * p.cantidad;
         html += `
             <p>
-                ${p.nombre} - Cantidad: ${p.cantidad} - $${p.precio} c/u - Subtotal: $${subtotal.toFixed(2)}
+                Nombre: ${p.nombre} - Cantidad: ${p.cantidad} - Precio Unidad: $${p.precio} - Subtotal: $${subtotal.toFixed(2)}
             </p>
         `;
     });
@@ -46,9 +49,58 @@ function mostrarTicketHTML() {
         <h3>Total: $${datos.total}</h3>
     `;
     contenedor.innerHTML = html;
-
-    localStorage.removeItem('carrito'); // limpia carrito
-    localStorage.removeItem('productosComprados');
 }
 
-document.addEventListener('DOMContentLoaded', mostrarTicketHTML);
+async function finalizarCompra() {
+    const ticket = generarDatosTicket();
+
+    try {
+        const response = await fetch('http://localhost:3000/', { // Falta implementar el backend y descarga del ticket
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ticket)
+        });
+
+        if (!response.ok) {
+            alert("Error al enviar el ticket al backend");
+            return;
+        }
+
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+        window.location.href = "Inicio.html";
+    } catch (error) {
+        console.error("Error al finalizar compra:", error);
+        alert("Error de conexión con el backend");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnFinalizar = document.getElementById('btnFinalizar');
+    const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
+    
+    if (productos.length === 0) {
+        btnFinalizar.disabled = true;
+        return;
+    }
+
+    btnFinalizar.addEventListener('click', () => {
+        finalizarCompra();
+    });
+
+    ajustarLinks();
+    
+    mostrarTicketHTML();
+});
+
+
+function ajustarLinks() {
+    const linkInicio = document.getElementById('linkInicio');
+
+    linkInicio.addEventListener('click', () => {
+        localStorage.removeItem('productosComprados');
+        localStorage.removeItem('nombreUsuario');
+    });
+}

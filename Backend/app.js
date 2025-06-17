@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const { sequelize } = require('./models');
+const cors = require('cors');
 
+app.use(cors());
 
 // Rutas
 const authRutas = require('./Rutas/authRutas');
@@ -24,6 +26,8 @@ app.use('/imagenes/juegos', express.static('Estaticos/Imagenes/portada_juegos'))
 app.use('/imagenes/giftcards', express.static('Estaticos/Imagenes/portada_giftCards'));
 
 app.use('/imagenes/logo', express.static('Estaticos/Imagenes/logo'));
+
+app.use('/imagenes/carrito', express.static('Estaticos/Imagenes/carrito'));
 
 
 
