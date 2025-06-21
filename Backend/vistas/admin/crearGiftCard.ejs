@@ -1,0 +1,38 @@
+<%- include('../partes/header') %>
+
+<h1>Agregar Nueva GiftCard</h1>
+
+<form action="/api/giftcards" method="POST" enctype="multipart/form-data">
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" required>
+
+    <label for="precio">Precio:</label>
+    <input type="number" name="precio" step="0.01" required>
+
+    <label for="empresa">Empresa:</label>
+    <input type="text" name="empresa">
+
+    <label for="consola">Consola:</label>
+    <input type="text" name="consola">
+
+    <label for="requerimientos_minimos">Requisitos:</label>
+    <input type="text" name="requerimientos_minimos">
+
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock">
+
+    <label for="fecha_caducidad">Fecha de Caducidad:</label>
+    <input type="date" name="fecha_caducidad">
+
+    <label for="plataformas_disponibles">Plataformas:</label>
+    <input type="text" name="plataformas_disponibles">
+
+    <label for="imagen">Imagen:</label>
+    <input type="file" name="imagen">
+
+    <button type="submit">Crear GiftCard</button>
+</form>
+
+<a href="/admin/panel">Volver al Panel</a>
+
+<%- include('../partes/footer') %>

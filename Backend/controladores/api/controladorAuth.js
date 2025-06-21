@@ -54,7 +54,7 @@ exports.registrarAdmin = async (req, res) => {
 exports.loginAdmin = async (req, res) => {
     const { nombre, password } = req.body;
 
-    if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
+    
 
     try {
         const admin = await Usuario.findOne({ where: { nombre, rol: 'admin' } });
@@ -69,5 +69,37 @@ exports.loginAdmin = async (req, res) => {
         res.json({ mensaje: 'Login exitoso', token, rol: admin.rol });
     } catch (error) {
         res.status(500).json({ error: 'Error al iniciar sesión.' });
+    }
+};
+
+
+exports.login = async (req, res) => {
+    const { nombre, password } = req.body;
+    if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
+
+    try {
+        const admin = await Usuario.findOne({ where: { nombre, rol: 'admin' } });
+
+        if (!admin) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+
+        const passwordValida = await bcrypt.compare(password, admin.password);
+
+        if (!passwordValida) return res.status(401).json({ error: 'Contraseña incorrecta.' });
+
+        const token = generarToken(admin);
+        res.json({ mensaje: 'Login exitoso', token, rol: admin.rol });
+
+        // Guardar token y rol en sesión
+        req.session.token = token;
+        req.session.rol = admin.rol;
+
+        // Redirigir al panel
+        res.redirect('/admin/juegos');
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al iniciar sesión');
     }
 };

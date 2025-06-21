@@ -1,0 +1,38 @@
+<%- include('../partes/header') %>
+    <h1>Editar Gift Card</h1>
+
+    <form action="/api/giftcards/<%= giftcard.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" value="<%= giftcard.nombre %>" required><br>
+
+        <label>Precio:</label>
+        <input type="number" step="0.01" name="precio" value="<%= giftcard.precio %>" required><br>
+
+        <label>Empresa:</label>
+        <input type="text" name="empresa" value="<%= giftcard.empresa %>" required><br>
+
+        <label>Consola:</label>
+        <input type="text" name="consola" value="<%= giftcard.consola %>" required><br>
+
+        <label>Requerimientos Mínimos:</label>
+        <input type="text" name="requerimientos_minimos" value="<%= giftcard.requerimientos_minimos %>" required><br>
+
+        <label>Stock:</label>
+        <input type="number" name="stock" value="<%= giftcard.stock %>" required><br>
+
+        <label>Fecha de Caducidad:</label>
+        <input type="date" name="fecha_caducidad" value="<%= giftcard.fecha_caducidad.toISOString().split('T')[0] %>" required><br>
+
+        <label>Plataformas Disponibles:</label>
+        <input type="text" name="plataformas_disponibles" value="<%= giftcard.plataformas_disponibles %>" required><br>
+
+        <label>Imagen:</label>
+        <input type="file" name="imagen"><br>
+        <small>Imagen actual: <%= giftcard.imagen ? giftcard.imagen : 'No disponible' %></small><br><br>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <a href="/admin/giftcards">Volver al listado</a>
+
+<%- include('../partes/footer') %>
