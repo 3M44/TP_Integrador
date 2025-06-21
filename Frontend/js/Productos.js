@@ -7,17 +7,28 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedor.innerHTML = "";
 
         try {
-            const response = await fetch('http://localhost:3000/productos');
-            const datos = await response.json();
+            const responseJuegos = await fetch('http://localhost:3000/api/juegos');
+            const datosJuegos = await responseJuegos.json();
 
-            const productos = datos.map(
-                prod => new Producto(prod.id, prod.nombre, prod.precio, prod.imagen, prod.categoria, prod.activo, prod.cantidad)
+            const responseCards = await fetch('http://localhost:3000/api/giftcards');
+            const datosCards = await responseCards.json();
+
+            const juegos = datosJuegos.map(
+                prod => new Juego(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.requerimientos_minimos, prod.stock, prod.genero, prod.puntuacion_general, prod.activo, prod.imagen)
             );
 
-            productos.forEach(producto => {
-                if (categoriaMostrada === "Todos" && producto.activo == 1) {
+            const cards = datosCards.map(
+                prod => new GiftCard(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.requerimientos_minimos, prod.stock,  prod.fecha_caducidad, prod.plataformas_disponibles, prod.imagen, prod.activo)
+            );
+
+            cards.forEach(producto => {
+                if (categoriaMostrada === "Todos" || categoriaMostrada == "Gift Card" && producto.activo == 1) {
                     contenedor.appendChild(producto.createHTMLElement());
-                } else if (producto.categoria == categoriaMostrada && producto.activo == 1) {
+                }
+            });
+
+            juegos.forEach(producto => {
+                if (categoriaMostrada === "Todos" || categoriaMostrada == "Juegos" && producto.activo == 1) {
                     contenedor.appendChild(producto.createHTMLElement());
                 }
             });

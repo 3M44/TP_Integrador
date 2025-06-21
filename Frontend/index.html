@@ -2,27 +2,31 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Game Shop - Ticket</title>
+  <title>Game Shop - Bienvenida</title>
   <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/ticket.css">
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
   <header class="header">
     <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
     <h1>Game Shop</h1>
   </header>
-  
-  <main class="center-content">
+
+  <main>
+
     <nav>
         <a href="index.html" id="linkInicio">Inicio</a>
         <a href="productos.html" id="linkProductos">Productos</a>
         <a href="carrito.html" id="linkCarrito">Carrito</a>
         <a href="ticket.html" id="linkTicket">Ticket</a>
-      </nav>
-  <div class="ticket" id="ticket-info"></div> 
-  <button id="btnFinalizar">Finalizar</button>
+    </nav>
+
+    <h2>¡Bienvenido a Game Shop!</h2>
+    <p>Ingresá tu nombre para comenzar:</p>
+    <input type="text" id="nombreUsuario" placeholder="Tu nombre">
+    <button id="btnContinuar" type="button">Continuar</button>
+    
   </main>
-  <script src="js/ticket.js"></script>
 
   <footer class="footer">
     <div class="footer-content">
@@ -30,5 +34,11 @@
       <p>Integrantes: Thiago Garcia, Emanuel Mendoza, Iván Ramunda</p>
     </div>
   </footer>
+
+  <script src="js/index.js"></script>
 </body>
 </html>
+
+
+
+

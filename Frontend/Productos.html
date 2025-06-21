@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>GameGift - Productos</title>
-    <link rel="stylesheet" href="css/productos.css">
-    <link rel="stylesheet" href="css/global.css">
+  <meta charset="UTF-8">
+  <title>Game Shop - Productos</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/productos.css">
 </head>
 <body>
-
-    <h1>GameGift</h1>
-    <h2>Desarrollado por: Emanuel Mendoza</h2>
+  <header class="header">
     <img src="http://localhost:3000/Imagenes/logo/logo.png" alt="Logo de GameGift" class="logo">
+    <h1>Game Shop</h1>
+    <a href="carrito.html" class="btn-carrito" style="margin-left:auto">🛒 Ver Carrito</a>
+  </header>
+
+  <main>
+    
     <nav>
-        <a href="Inicio.html" id="linkInicio">Inicio</a>
-        <a href="Productos.html" id="linkProductos">Productos</a>
-        <a href="Carrito.html" id="linkCarrito">Carrito</a>
-        <a href="Ticket.html" id="linkTicket">Ticket</a>
+      <a href="index.html" id="linkInicio">Inicio</a>
+      <a href="productos.html" id="linkProductos">Productos</a>
+      <a href="carrito.html" id="linkCarrito">Carrito</a>
+      <a href="ticket.html" id="linkTicket">Ticket</a>
     </nav>
-    <div class="barra-superior">
+
     <div class="filtro-categoria">
-        <h4>Categoría:</h4>
-        <select id="cambiar-categoria">
-            <option value="Todos" selected>Todos</option>
-            <option value="Juegos">Juegos</option>
-            <option value="Gift Card">Gift Cards</option>
-        </select>
+      <h4>Categoría:</h4>
+      <select id="cambiar-categoria">
+          <option value="Todos" selected="">Todos</option>
+          <option value="Juegos">Juegos</option>
+          <option value="Gift Card">Gift Cards</option>
+      </select>
     </div>
-        <button onclick="window.location.href='Carrito.html'" style="background: none; border: none; cursor: pointer;">
-            <img src="http://localhost:3000/Imagenes/carrito/Carrito.png" alt="Carrito" width="32" height="32">
-        </button>
-    </div>
-
+    
     <section id="principal">
-        <div id="contenedor-productos" >
-        </div>
+        <div id="contenedor-productos"></div>
     </section>
+  </main>
 
-    <script src="js/Producto.js"></script>
-    <script src="js/Productos.js"></script>
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Game Shop. División 331 | Profesores: Horacio Serrano, Ibrahim Rodríguez</p>
+      <p>Integrantes: Thiago Garcia, Emanuel Mendoza, Iván Ramunda</p>
+    </div>
+  </footer>
 </body>
+<script src="js/Juego.js"></script>
+<script src="js/GiftCard.js"></script>
+<script src="js/Productos.js"></script>
 </html>

@@ -6,7 +6,7 @@ function generarDatosTicket() {
 
     let total = 0;
     productos.forEach(p => {
-        total += p.precio * p.stock;
+        total += p.precio * p.cantidad;
     });
 
     return {
@@ -36,10 +36,10 @@ function mostrarTicketHTML() {
     `;
 
     datos.productos.forEach(p => {
-        const subtotal = p.precio * p.stock;
+        const subtotal = p.precio * p.cantidad;
         html += `
             <p>
-                Nombre: ${p.nombre} - Cantidad: ${p.stock} - Precio Unidad: $${p.precio} - Subtotal: $${subtotal.toFixed(2)}
+                Nombre: ${p.nombre} - Cantidad: ${p.cantidad} - Precio Unidad: $${p.precio} - Subtotal: $${subtotal.toFixed(2)}
             </p>
         `;
     });

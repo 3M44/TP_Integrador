@@ -7,7 +7,6 @@ function cargarCarrito() {
 
     if (productos.length === 0) {
         contenedor.innerHTML = '<p>No hay productos en el carrito.</p>';
-        totalDiv.innerHTML = '';
         return;
     }
 
@@ -15,17 +14,23 @@ function cargarCarrito() {
         const productoDiv = document.createElement('div');
         productoDiv.className = 'producto-carrito';
 
-        const subtotal = producto.precio * producto.stock;
+        const subtotal = producto.precio * producto.cantidad;
         total += subtotal;
 
+        if (producto.genero){
+            img = `http://localhost:3000/imagenes/juegos/${producto.imagen}`;
+        } else {
+            img = `http://localhost:3000/imagenes/giftcards/${producto.imagen}`;
+        }
+
         productoDiv.innerHTML = `
-            <img src="http://localhost:3000/${producto.imagen}" alt="${producto.nombre}">
+            <img src="${img}" alt="${producto.nombre}">
             <div>
                 <h3 class="nombre-producto" >${producto.nombre}</h3>
                 <p>Precio: $${producto.precio}</p>
                 <div class="cantidad-control">
                     <button class="restar" data-nombre="${producto.nombre}">-</button>
-                    <span class="cantidad">Cantidad: ${producto.stock}</span>
+                    <span class="cantidad">Cantidad: ${producto.cantidad}</span>
                     <button class="sumar" data-nombre="${producto.nombre}">+</button>
                 </div>
                 <p class="subtotal">Subtotal: $${subtotal.toFixed(2)}</p>
@@ -33,7 +38,7 @@ function cargarCarrito() {
         `;
         contenedor.appendChild(productoDiv);
     });
-    totalDiv.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`;
+    document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
     agregarEventosCantidad();
 }
 
@@ -47,12 +52,12 @@ function agregarEventosCantidad() {
             const producto = productos.find(p => p.nombre === nombre);
 
             const cambio = e.target.classList.contains('sumar') ? 1 : -1;
-            producto.stock += cambio;
+            producto.cantidad += cambio;
             
-            if (producto.stock < 1 ) {
-                producto.stock = 1
-            } else if (producto.cantidad < producto.stock) {
-                producto.stock = producto.cantidad;
+            if (producto.cantidad < 1 ) {
+                producto.cantidad = 1
+            } else if (producto.stock < producto.cantidad) {
+                producto.cantidad = producto.stock;
             }
 
             localStorage.setItem('productosComprados', JSON.stringify(productos));
@@ -62,7 +67,7 @@ function agregarEventosCantidad() {
 }
 
 document.getElementById('pasarTickt').addEventListener('click', () => {
-    window.location.href = 'Ticket.html';
+    window.location.href = 'ticket.html';
 });
 
 function ajustarLinks() {
