@@ -68,6 +68,7 @@ class GiftCard {
 
         const imagen = document.createElement('img');
         imagen.src = 'http://localhost:3000/imagenes/giftcards/' + this.imagen; 
+        console.log('http://localhost:3000/imagenes/giftcards/' + this.imagen);
         imagen.alt = this.nombre;
         imagen.className = 'img-producto';
 
