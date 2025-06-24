@@ -10,6 +10,9 @@ const cors = require('cors');
 // Configuración de CORS (para que el frontend pueda consumir la API)
 app.use(cors());
 
+const cors = require('cors');
+app.use(cors());
+
 // Configuración de sesión
 app.use(session({
     secret: process.env.SESSION_SECRET || 'mi_secreto',
@@ -55,7 +58,7 @@ app.use('/api/giftcards', rutasCards);
 app.use('/api/ventas', ventaRutas);
 
 
-// Montar rutas EJS
+
 app.use('/', vistasGenerales);
 app.use('/admin',vistaPanel);
 app.use('/admin', vistasJuegos);
