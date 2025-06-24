@@ -1,0 +1,39 @@
+<%- include('../partes/header') %>
+
+<h1>Panel de Ventas</h1>
+
+<a href="/admin/panelProductos">Volver al Panel Principal</a> |
+<a href="/logout">Cerrar Sesión</a>
+
+<h2>Listado de Ventas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Venta</th>
+            <th>Cliente</th>
+            <th>Productos</th>
+            <th>Fecha</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% ventas.forEach(venta => { %>
+            <tr>
+                <td><%= venta.id %></td>
+                <td><%= venta.clienteNombre %></td>
+                <td>
+                    <ul>
+                        <% venta.productos.forEach(producto => { %>
+                            <li><%= producto.nombre %> (x<%= producto.VentaProducto.cantidad %>)</li>
+                        <% }) %>
+                    </ul>
+                </td>
+                <td><%= new Date(venta.createdAt).toLocaleString() %></td>
+                <td>$<%= venta.total %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<%- include('../partes/footer') %>

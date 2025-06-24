@@ -1,7 +1,7 @@
 <%- include('../partes/header') %>
     <h1>Editar Gift Card</h1>
 
-    <form action="/api/giftcards/<%= giftcard.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <form action="/api/giftcards/<%= giftcard.id %>/modificar?_method=PUT"  method="POST" enctype="multipart/form-data">
         <label>Nombre:</label>
         <input type="text" name="nombre" value="<%= giftcard.nombre %>" required><br>
 

@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
         consola: { type: DataTypes.STRING, allowNull: false },
         requerimientos_minimos: { type: DataTypes.STRING, allowNull: false },
         stock: { type: DataTypes.INTEGER, allowNull: false },
-        genero: { type: DataTypes.STRING, allowNull: false },
-        puntuacion_general: { type: DataTypes.FLOAT, allowNull: false },
+        genero: { type: DataTypes.STRING, allowNull: true },
+        puntuacion_general: { type: DataTypes.FLOAT, allowNull: true },
         activo: { type: DataTypes.BOOLEAN, defaultValue: true } ,
         imagen: { type: DataTypes.STRING, allowNull: true }
     });

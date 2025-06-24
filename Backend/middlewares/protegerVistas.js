@@ -1,6 +1,6 @@
 module.exports = {
     soloAdmins: (req, res, next) => {
-        if (!req.session.token || req.session.rol !== 'admin') {
+        if (!req.session.usuario || req.session.usuario.rol !== 'admin') {
             return res.redirect('/login');
         }
         next();

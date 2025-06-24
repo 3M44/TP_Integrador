@@ -5,13 +5,13 @@ const axios = require('axios');
 const { soloAdmins } = require('../../middlewares/protegerVistas');
 
 // Listar todas las ventas (solo admin)
-router.get('/admin/ventas', soloAdmins, async (req, res) => {
+router.get('/ventas', soloAdmins, async (req, res) => {
     try {
         const response = await axios.get('http://localhost:3000/api/ventas', {
             headers: { Authorization: req.session.token }
         });
         const ventas = response.data;
-        res.render('ventas', { ventas }); // Renderiza la vista ventas.ejs
+        res.render('admin/ventasPanel', { ventas }); // Renderiza la vista ventas.ejs
     } catch (error) {
         console.error(error);
         res.status(500).send('Error al obtener las ventas');

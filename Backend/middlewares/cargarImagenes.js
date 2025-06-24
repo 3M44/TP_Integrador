@@ -16,13 +16,13 @@ const fileFilter = (req, file, cb) => {
 
 // Configuración para juegos
 const storageJuegos = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './estaticos/imagenes/portada_juegos'),
+    destination: (req, file, cb) => cb(null, './estaticos/imagenes/juegos'),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 
 // Configuración para gift cards
 const storageGiftCards = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './estaticos/imagenes/portada_giftcards'),
+    destination: (req, file, cb) => cb(null, './estaticos/imagenes/giftCards'),
     filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 

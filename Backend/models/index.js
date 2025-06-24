@@ -25,4 +25,4 @@ sequelize.sync({ alter: true })
   .catch(err => console.error('Error sincronizando tablas:', err));
 
 // Exportar conexión y modelos
-module.exports = { sequelize, Usuario, Juego, GiftCard };
+module.exports = { sequelize, Usuario, Juego, GiftCard, Venta, VentaProducto };

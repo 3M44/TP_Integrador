@@ -2,7 +2,7 @@ const { Juego } = require('../../models');
 
 // Crear Juego
 exports.crearJuego = async (req, res) => {
-    const { nombre, precio, descripcion, stock, empresa, consola, fecha_lanzamiento, requerimientos_minimos, plataformas_disponibles } = req.body;
+    const { nombre, precio, descripcion, stock, empresa, consola, fecha_lanzamiento, requerimientos_minimos,genero, puntuacion_general,  plataformas_disponibles } = req.body;
     const imagen = req.file ? `/imagenes/juegos/${req.file.filename}` : null;
 
     if (!nombre || !precio) {
@@ -20,6 +20,8 @@ exports.crearJuego = async (req, res) => {
             fecha_lanzamiento,
             requerimientos_minimos,
             plataformas_disponibles,
+            genero,
+            puntuacion_general,
             imagen,
             activo: true
         });
