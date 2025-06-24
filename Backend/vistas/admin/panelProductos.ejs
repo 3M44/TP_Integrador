@@ -2,8 +2,9 @@
 
 <h1>Panel de Administración</h1>
 
-<a href="/admin/crearJuego">Agregar Nuevo Juego</a> |
-<a href="/admin/crearGiftCard">Agregar Nueva GiftCard</a> |
+<a href="/admin/crearJuego">Agregar Nuevo Juego</a> 
+<a href="/admin/crearGiftCard">Agregar Nueva GiftCard</a> 
+<a href="/admin/panelVentas">Ver ventas</a> 
 <a href="/logout">Cerrar Sesión</a>
 
 
@@ -19,7 +20,7 @@
         <td>$<%= juego.precio %></td>
         <td><%= juego.activo ? 'Activo' : 'Inactivo' %></td>
         <td>
-          <a href="/admin/editarJuego/<%= juego.id %>">Editar</a> |
+          <a href="/admin/editarJuego/<%= juego.id %>">Editar</a> 
           <% if (juego.activo) { %>
             <button onclick="cambiarEstadoJuego(<%= juego.id %>, false)">Desactivar</button>
           <% } else { %>
@@ -50,7 +51,7 @@
         <td>$<%= giftcard.precio %></td>
         <td><%= giftcard.activo ? 'Activo' : 'Inactivo' %></td>
         <td>
-          <a href="/admin/editarGiftCard/<%= giftcard.id %>">Editar</a> |
+          <a href="/admin/editarGiftCard/<%= giftcard.id %>">Editar</a> 
           <% if (giftcard.activo) { %>
             <button onclick="cambiarEstadoGiftCard(<%= giftcard.id %>, false)">Desactivar</button>
           <% } else { %>

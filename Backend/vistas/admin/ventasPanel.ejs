@@ -18,21 +18,22 @@
         </tr>
     </thead>
     <tbody>
-        <% ventas.forEach(venta => { %>
-            <tr>
-                <td><%= venta.id %></td>
-                <td><%= venta.clienteNombre %></td>
-                <td>
-                    <ul>
-                        <% venta.productos.forEach(producto => { %>
-                            <li><%= producto.nombre %> (x<%= producto.VentaProducto.cantidad %>)</li>
-                        <% }) %>
-                    </ul>
-                </td>
-                <td><%= new Date(venta.createdAt).toLocaleString() %></td>
-                <td>$<%= venta.total %></td>
-            </tr>
-        <% }) %>
+       <% ventas.forEach(venta => { %>
+    <tr>
+        <td><%= venta.id %></td>
+        <td><%= venta.Usuario.nombre %></td>
+        <td>
+            <ul>
+                <% venta.VentaProductos.forEach(producto => { %>
+                    <li><%= producto.productoTipo %> ID: <%= producto.productoId %> (x<%= producto.cantidad %>)</li>
+                <% }) %>
+            </ul>
+        </td>
+        <td><%= new Date(venta.createdAt).toLocaleString() %></td>
+        <td>$<%= venta.total %></td>
+    </tr>
+<% }) %>
+
     </tbody>
 </table>
 

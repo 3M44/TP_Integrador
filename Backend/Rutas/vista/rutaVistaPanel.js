@@ -12,8 +12,8 @@ router.get('/panelProductos', soloAdmins, async (req, res) => {
         const giftcards = giftcardsResponse.data;
 
        res.render('admin/panelProductos', {
-      juegos: juegosResponse.data,
-      giftcards: giftcardsResponse.data,
+      juegos,
+      giftcards,
       token: req.session.token // PASAR EL TOKEN JWT A LA VISTA
     });
     } catch (error) {

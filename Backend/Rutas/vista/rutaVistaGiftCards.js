@@ -4,7 +4,7 @@ const axios = require('axios');
 const { soloAdmins } = require('../../middlewares/protegerVistas');
 
 router.get('/crearGiftCard', soloAdmins, (req, res) => {
-    res.render('admin/crearGiftCard');
+    res.render('admin/crearGiftCard', {token: req.session.token});
 });
 
 // Formulario editar giftcard
@@ -16,7 +16,7 @@ router.get('/editarGiftCard/:id', soloAdmins, async (req, res) => {
 
         if (!giftcard) return res.status(404).send('GiftCard no encontrada');
 
-        res.render('admin/editarGiftCard', { giftcard });
+        res.render('admin/editarGiftCard', { giftcard,  token: req.session.token });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error al obtener la gift card.');

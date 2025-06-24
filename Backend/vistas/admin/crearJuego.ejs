@@ -2,7 +2,7 @@
 
 <h1>Agregar Nuevo Juego</h1>
 
-<form action="/api/juegos/subirJuego" method="POST" enctype="multipart/form-data">
+<form id="formCrearJuego" enctype="multipart/form-data">
     <label for="nombre">Nombre:</label>
     <input type="text" name="nombre" required>
 
@@ -37,5 +37,45 @@
 </form>
 
 <a href="/admin/panel">Volver al Panel</a>
+
+<script>
+    const token = '<%= token %>'; // Asegurate de pasarlo desde el router
+
+    document.getElementById('formCrearJuego').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/api/juegos/subirJuego', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                    // No pongas 'Content-Type' porque fetch con FormData lo setea automáticamente
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch {
+                    errorData = { message: 'No se pudo interpretar el error del servidor' };
+                }
+                alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
+                return;
+            }
+
+            alert('Juego creado correctamente');
+            window.location.href = '/admin/panel'; // Redirige al panel
+
+        } catch (err) {
+            console.error(err);
+            alert('Error de red o servidor: ' + err.message);
+        }
+    });
+</script>
 
 <%- include('../partes/footer') %>
