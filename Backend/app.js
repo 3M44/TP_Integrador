@@ -39,6 +39,7 @@ const authRutas = require('./Rutas/api/authRutas');
 const juegoRutas = require('./Rutas/api/rutasJuegos');
 const rutasCards = require('./Rutas/api/rutasCards');
 const ventaRutas = require('./Rutas/api/rutaVentas');
+const ticketRutas = require('./Rutas/api/rutasTicket');
 
 // Rutas EJS
 const vistasGenerales = require('./Rutas/vista/rutaVistaUsuarios');
@@ -54,6 +55,7 @@ app.use('/', authRutas);
 app.use('/api/juegos', juegoRutas);
 app.use('/api/giftcards', rutasCards);
 app.use('/api/ventas', ventaRutas);
+app.use('/api/ticket', ticketRutas);
 
 
 // Montar rutas EJS

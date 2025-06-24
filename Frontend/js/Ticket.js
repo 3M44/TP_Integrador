@@ -55,11 +55,9 @@ async function finalizarCompra() {
     const ticket = generarDatosTicket();
 
     try {
-        const response = await fetch('http://localhost:3000/', { // Falta implementar el backend y descarga del ticket
+        const response = await fetch('http://localhost:3000/api/ticket/descargarTicket', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ticket)
         });
 
@@ -68,9 +66,18 @@ async function finalizarCompra() {
             return;
         }
 
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ticket.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
         localStorage.removeItem('productosComprados');
         localStorage.removeItem('nombreUsuario');
-        window.location.href = "Inicio.html";
+        window.location.href = "index.html";
     } catch (error) {
         console.error("Error al finalizar compra:", error);
         alert("Error de conexión con el backend");
