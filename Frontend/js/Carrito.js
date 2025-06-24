@@ -90,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
 
     if (productos.length == 0) {
-        document.getElementById('pasarTickt').disabled = true;
+        document.getElementById('pasarTickt').style.backgroundColor = 'red';
+        document.getElementById('pasarTickt').style.pointerEvents = 'none';
     }
 
     ajustarLinks();
