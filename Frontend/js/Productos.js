@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             cards.forEach(producto => {
-                if (categoriaMostrada === "Todos" || categoriaMostrada == "Gift Card" && producto.activo == 1) {
+                if ((categoriaMostrada === "Todos" || categoriaMostrada == "Gift Card") && producto.activo == 1) {
                     contenedor.appendChild(producto.createHTMLElement());
                 }
             });
 
             juegos.forEach(producto => {
-                if (categoriaMostrada === "Todos" || categoriaMostrada == "Juegos" && producto.activo == 1) {
+                if ((categoriaMostrada === "Todos" || categoriaMostrada == "Juegos") && producto.activo == 1) {
                     contenedor.appendChild(producto.createHTMLElement());
                 }
             });
