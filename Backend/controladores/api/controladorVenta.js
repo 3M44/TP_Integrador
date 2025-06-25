@@ -2,11 +2,13 @@ const { Venta, VentaProducto, Juego, GiftCard, Usuario } = require('../../models
 
 exports.crearVenta = async (req, res) => {
   try {
-    const { usuarioId, productos } = req.body;
+    const { nombreUsuario, productos } = req.body;
 
-    // Verificar que el usuario exista
-    const usuario = await Usuario.findByPk(usuarioId);
+    // Buscar usuario por nombre en vez de por id
+    const usuario = await Usuario.findOne({ where: { nombre: nombreUsuario } });
     if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    const usuarioId = usuario.id;
 
     let total = 0;
 

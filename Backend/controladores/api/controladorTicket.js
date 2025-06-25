@@ -1,8 +1,6 @@
 const ejs = require('ejs');
 const path = require('path');
 const puppeteer = require('puppeteer');
-const { crearVenta } = require('./controladorVenta');
-
 
 // Recibe los datos del ticket por POST y genera PDF para descarga
 async function descargarTicket(req, res) {

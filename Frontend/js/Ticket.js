@@ -55,18 +55,35 @@ async function finalizarCompra() {
     const ticket = generarDatosTicket();
 
     try {
-        const response = await fetch('http://localhost:3000/api/ticket/descargarTicket', {
+        const body = {
+        nombreUsuario: ticket.cliente,  
+        productos: ticket.productos
+        };
+
+        const guardarResponse = await fetch('http://localhost:3000/api/ventas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (!guardarResponse.ok) {
+            const errorData = await guardarResponse.json();
+            alert("Error al guardar el ticket: " + (errorData.message || errorData.mensaje || "Error desconocido"));
+            return;
+        }
+
+        const descargarResponse = await fetch('http://localhost:3000/api/ticket/descargarTicket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ticket)
         });
 
-        if (!response.ok) {
-            alert("Error al enviar el ticket al backend");
+        if (!descargarResponse.ok) {
+            alert("Error al descargar el PDF del ticket");
             return;
         }
 
-        const blob = await response.blob();
+        const blob = await descargarResponse.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -78,11 +95,13 @@ async function finalizarCompra() {
         localStorage.removeItem('productosComprados');
         localStorage.removeItem('nombreUsuario');
         window.location.href = "index.html";
+
     } catch (error) {
         console.error("Error al finalizar compra:", error);
         alert("Error de conexión con el backend");
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnFinalizar = document.getElementById('btnFinalizar');
