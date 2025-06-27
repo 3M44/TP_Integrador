@@ -53,6 +53,7 @@ function mostrarTicketHTML() {
 
 async function finalizarCompra() {
     const ticket = generarDatosTicket();
+    console.log("Datos del ticket:", ticket);
 
     try {
         const body = {
