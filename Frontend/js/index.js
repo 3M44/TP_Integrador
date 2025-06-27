@@ -1,11 +1,32 @@
-document.getElementById("btnContinuar").addEventListener("click", () => { 
+document.getElementById("btnContinuar").addEventListener("click", async () => { 
     const nombre = document.getElementById("nombreUsuario"); 
 
     if (nombre.value.trim() === "") {
       alert("Por favor, ingrese un nombre de usuario.");
-    }else {
-      localStorage.setItem('nombreUsuario', nombre.value.trim());
-      window.location.href = "Productos.html"; 
+    } else {
+      try {
+        const response = await fetch('http://localhost:3000/registrar-cliente', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+          nombre: nombre.value.trim()
+        })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.error || "Error al registrar usuario");
+          return; 
+        }
+
+        localStorage.setItem('nombreUsuario', nombre.value.trim());
+        window.location.href = "Productos.html"; 
+      } catch (error){
+        alert('Error en la conexión al servidor');
+      }
     }
 });
 

@@ -2,11 +2,13 @@ const { Venta, VentaProducto, Juego, GiftCard, Usuario } = require('../../models
 
 exports.crearVenta = async (req, res) => {
   try {
-    const { usuarioId, productos } = req.body;
+    const { nombreUsuario, productos } = req.body;
 
-    // Verificar que el usuario exista
-    const usuario = await Usuario.findByPk(usuarioId);
+    // Buscar usuario por nombre en vez de por id
+    const usuario = await Usuario.findOne({ where: { nombre: nombreUsuario } });
     if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    const usuarioId = usuario.id;
 
     let total = 0;
 
@@ -14,20 +16,20 @@ exports.crearVenta = async (req, res) => {
     for (const prod of productos) {
       let producto;
 
-      if (prod.productoTipo === 'Juego') {
-        producto = await Juego.findByPk(prod.productoId);
-      } else if (prod.productoTipo === 'GiftCard') {
-        producto = await GiftCard.findByPk(prod.productoId);
+      if ('puntuacion_general' in prod)  {
+        producto = await Juego.findByPk(prod.id);
+      } else if ('fecha_caducidad' in prod)  {
+        producto = await GiftCard.findByPk(prod.id);
       } else {
         return res.status(400).json({ message: 'Tipo de producto inválido' });
       }
 
       if (!producto) {
-        return res.status(404).json({ message: `Producto ${prod.productoTipo} con ID ${prod.productoId} no encontrado` });
+        return res.status(404).json({ message: `El producto con ID ${prod.id} no encontrado` });
       }
 
       if (producto.stock < prod.cantidad) {
-        return res.status(400).json({ message: `Stock insuficiente para ${prod.productoTipo} ID ${prod.productoId}` });
+        return res.status(400).json({ message: `Stock insuficiente para el producto con ID ${prod.id}` });
       }
 
       total += producto.precio * prod.cantidad;
@@ -40,20 +42,20 @@ exports.crearVenta = async (req, res) => {
     for (const prod of productos) {
       let producto;
 
-      if (prod.productoTipo === 'Juego') {
-        producto = await Juego.findByPk(prod.productoId);
+      if ('puntuacion_general' in prod) {
+        producto = await Juego.findByPk(prod.id);
       } else {
-        producto = await GiftCard.findByPk(prod.productoId);
+        producto = await GiftCard.findByPk(prod.id);
       }
 
       const subtotal = producto.precio * prod.cantidad;
 
       await VentaProducto.create({
-        VentaId: venta.id,
-        productoTipo: prod.productoTipo,
-        productoId: prod.productoId,
+        productoId: prod.id,
+        productoTipo: 'puntuacion_general' in prod ? 'Juego' : 'GiftCard',
         cantidad: prod.cantidad,
-        subtotal
+        subtotal,
+        VentaId: venta.id
       });
 
       // Actualizar stock
@@ -61,7 +63,7 @@ exports.crearVenta = async (req, res) => {
       await producto.save();
     }
 
-    res.status(201).json({ message: 'Venta registrada correctamente', ventaId: venta.id });
+    res.status(201).json({ message: 'Venta registrada correctamente'});
 
   } catch (error) {
     console.error('Error al registrar la venta:', error);
