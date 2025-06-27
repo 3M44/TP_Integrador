@@ -2,41 +2,77 @@
 
 <h1>Editar Gift Card</h1>
 
-<form id="formEditarGiftCard" enctype="multipart/form-data">
+
+
+<div class="container mt-4">
+  <h2 class="mb-4">Editar GiftCard</h2>
+
+  <form id="formEditarGiftCard" enctype="multipart/form-data" class="row g-3">
     <input type="hidden" name="giftcardId" value="<%= giftcard.id %>">
 
-    <label>Nombre:</label>
-    <input type="text" name="nombre" value="<%= giftcard.nombre %>" required><br>
+    <div class="col-md-6">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" id="nombre" name="nombre" class="form-control"
+             value="<%= giftcard.nombre %>" required>
+    </div>
 
-    <label>Precio:</label>
-    <input type="number" step="0.01" name="precio" value="<%= giftcard.precio %>" required><br>
+    <div class="col-md-6">
+      <label for="precio" class="form-label">Precio</label>
+      <input type="number" id="precio" name="precio" step="0.01" class="form-control"
+             value="<%= giftcard.precio %>" required>
+    </div>
 
-    <label>Empresa:</label>
-    <input type="text" name="empresa" value="<%= giftcard.empresa %>" required><br>
+    <div class="col-md-6">
+      <label for="empresa" class="form-label">Empresa</label>
+      <input type="text" id="empresa" name="empresa" class="form-control"
+             value="<%= giftcard.empresa %>" required>
+    </div>
 
-    <label>Consola:</label>
-    <input type="text" name="consola" value="<%= giftcard.consola %>" required><br>
+    <div class="col-md-6">
+      <label for="consola" class="form-label">Consola</label>
+      <input type="text" id="consola" name="consola" class="form-control"
+             value="<%= giftcard.consola %>" required>
+    </div>
 
-    <label>Requerimientos Mínimos:</label>
-    <input type="text" name="requerimientos_minimos" value="<%= giftcard.requerimientos_minimos %>" required><br>
+    <div class="col-md-6">
+      <label for="requerimientos_minimos" class="form-label">Requisitos Mínimos</label>
+      <input type="text" id="requerimientos_minimos" name="requerimientos_minimos"
+             class="form-control" value="<%= giftcard.requerimientos_minimos %>" required>
+    </div>
 
-    <label>Stock:</label>
-    <input type="number" name="stock" value="<%= giftcard.stock %>" required><br>
+    <div class="col-md-6">
+      <label for="stock" class="form-label">Stock</label>
+      <input type="number" id="stock" name="stock" class="form-control"
+             value="<%= giftcard.stock %>" required>
+    </div>
 
-    <label>Fecha de Caducidad:</label>
-    <input type="date" name="fecha_caducidad" value="<%= giftcard.fecha_caducidad.toISOString().split('T')[0] %>" required><br>
+    <div class="col-md-6">
+      <label for="fecha_caducidad" class="form-label">Fecha de Caducidad</label>
+      <input type="date" id="fecha_caducidad" name="fecha_caducidad" class="form-control"
+             value="<%= giftcard.fecha_caducidad.substring(0, 10) %>" required>
+    </div>
 
-    <label>Plataformas Disponibles:</label>
-    <input type="text" name="plataformas_disponibles" value="<%= giftcard.plataformas_disponibles %>" required><br>
+    <div class="col-md-6">
+      <label for="plataformas_disponibles" class="form-label">Plataformas Disponibles</label>
+      <input type="text" id="plataformas_disponibles" name="plataformas_disponibles"
+             class="form-control" value="<%= giftcard.plataformas_disponibles %>" required>
+    </div>
 
-    <label>Imagen:</label>
-    <input type="file" name="imagen"><br>
-    <small>Imagen actual: <%= giftcard.imagen ? giftcard.imagen : 'No disponible' %></small><br><br>
+    <div class="col-md-12">
+      <label for="imagen" class="form-label">Imagen</label>
+      <input type="file" id="imagen" name="imagen" class="form-control">
+      <small class="form-text text-muted">
+        Imagen actual: <%= giftcard.imagen ? giftcard.imagen : 'No disponible' %>
+      </small>
+    </div>
 
-    <button type="submit">Guardar Cambios</button>
-</form>
+    <div class="col-12 d-flex justify-content-between mt-3">
+      <a href="/admin/panelProductos" class="btn btn-secondary">Volver al listado</a>
+      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+  </form>
+</div>
 
-<a href="/admin/giftcards">Volver al listado</a>
 
 <script>
     const token = '<%= token %>'; // Asegurate de pasar el token desde el router
@@ -69,7 +105,7 @@
             }
 
             alert('GiftCard actualizada correctamente');
-            window.location.href = '/admin/giftcards'; // Redirige al listado
+            window.location.href = '/admin/panelProductos'; // Redirige al listado
 
         } catch (err) {
             console.error(err);

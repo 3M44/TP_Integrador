@@ -1,139 +1,114 @@
 <%- include('../partes/header') %>
+  <div class="container mt-5">
+  <h1 class="mb-4">Panel de Administración</h1>
 
-<h1>Panel de Administración</h1>
+  <div class="mb-4">
+    <a href="/admin/crearJuego" class="btn btn-success me-2">Agregar Nuevo Juego</a>
+    <a href="/admin/crearGiftCard" class="btn btn-success me-2">Agregar Nueva GiftCard</a>
+    <a href="/admin/panelVentas" class="btn btn-primary me-2">Ver Ventas</a>
+    <a href="/logout" class="btn btn-danger">Cerrar Sesión</a>
+  </div>
 
-<a href="/admin/crearJuego">Agregar Nuevo Juego</a> 
-<a href="/admin/crearGiftCard">Agregar Nueva GiftCard</a> 
-<a href="/admin/panelVentas">Ver ventas</a> 
-<a href="/logout">Cerrar Sesión</a>
 
-
-<h2>Juegos</h2>
-<table>
-  <thead>
-    <tr><th>Nombre</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr>
-  </thead>
-  <tbody>
-    <% juegos.forEach(juego => { %>
+  <h2 class="mt-5">Juegos</h2>
+  <table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark text-center">
       <tr>
-        <td><%= juego.nombre %></td>
-        <td>$<%= juego.precio %></td>
-        <td><%= juego.activo ? 'Activo' : 'Inactivo' %></td>
-        <td>
-          <a href="/admin/editarJuego/<%= juego.id %>">Editar</a> 
-          <% if (juego.activo) { %>
-            <button onclick="cambiarEstadoJuego(<%= juego.id %>, false)">Desactivar</button>
-          <% } else { %>
-            <button onclick="cambiarEstadoJuego(<%= juego.id %>, true)">Reactivar</button>
-          <% } %>
-        </td>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Estado</th>
+        <th>Acciones</th>
       </tr>
-    <% }) %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% juegos.forEach(juego => { %>
+        <tr>
+          <td><%= juego.nombre %></td>
+          <td class="text-end">$<%= juego.precio.toFixed(2) %></td>
+          <td class="text-center"><%= juego.stock %></td>
+          <td class="text-center">
+            <span class="badge <%= juego.activo ? 'bg-success' : 'bg-secondary' %>">
+              <%= juego.activo ? 'Activo' : 'Inactivo' %>
+            </span>
+          </td>
+          <td class="text-center">
+            <a href="/admin/editarJuego/<%= juego.id %>" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+            <% if (juego.activo) { %>
+              <button class="btn btn-sm btn-outline-danger"
+                      onclick="cambiarEstadoJuego(<%= juego.id %>, false)">
+                Desactivar
+              </button>
+            <% } else { %>
+              <button class="btn btn-sm btn-outline-success"
+                      onclick="cambiarEstadoJuego(<%= juego.id %>, true)">
+                Reactivar
+              </button>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 
-
-<h2>GiftCards</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Precio</th>
-      <th>Estado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% if (giftcards && giftcards.length > 0) { %>
-    <% giftcards.forEach(giftcard => { %>
+  <h2 class="mt-5">GiftCards</h2>
+  <table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark text-center">
       <tr>
-        <td><%= giftcard.nombre %></td>
-        <td>$<%= giftcard.precio %></td>
-        <td><%= giftcard.activo ? 'Activo' : 'Inactivo' %></td>
-        <td>
-          <a href="/admin/editarGiftCard/<%= giftcard.id %>">Editar</a> 
-          <% if (giftcard.activo) { %>
-            <button onclick="cambiarEstadoGiftCard(<%= giftcard.id %>, false)">Desactivar</button>
-          <% } else { %>
-            <button onclick="cambiarEstadoGiftCard(<%= giftcard.id %>, true)">Reactivar</button>
-          <% } %>
-        </td>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Estado</th>
+        <th>Acciones</th>
       </tr>
-    <% }) %>
-  <% } else { %>
-    <tr><td colspan="4">No hay GiftCards disponibles</td></tr>
-  <% } %>
-</tbody>
-</table>
+    </thead>
+    <tbody>
+      <% if (giftcards && giftcards.length) { %>
+        <% giftcards.forEach(giftcard => { %>
+          <tr>
+            <td><%= giftcard.nombre %></td>
+            <td class="text-end">$<%= giftcard.precio.toFixed(2) %></td>
+            <td class="text-center"><%= giftcard.stock %></td>
+            <td class="text-center">
+              <span class="badge <%= giftcard.activo ? 'bg-success' : 'bg-secondary' %>">
+                <%= giftcard.activo ? 'Activo' : 'Inactivo' %>
+              </span>
+            </td>
+            <td class="text-center">
+              <a href="/admin/editarGiftCard/<%= giftcard.id %>" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+              <% if (giftcard.activo) { %>
+                <button class="btn btn-sm btn-outline-danger"
+                        onclick="cambiarEstadoGiftCard(<%= giftcard.id %>, false)">
+                  Desactivar
+                </button>
+              <% } else { %>
+                <button class="btn btn-sm btn-outline-success"
+                        onclick="cambiarEstadoGiftCard(<%= giftcard.id %>, true)">
+                  Reactivar
+                </button>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="5" class="text-center text-muted">No hay GiftCards disponibles</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
 
 
-<script>
-  const token = '<%= token %>';  // Token JWT pasado desde el servidor
 
-    async function cambiarEstadoJuego(juegoId, activar) {
-    try {
-      const url = activar ? `/api/juegos/${juegoId}/activar` : `/api/juegos/${juegoId}`;
-      const method = activar ? 'PUT' : 'DELETE';
+  <script type="module">
+    import { crearControladorEstado } from '/js/controladorTokenProductos.js';
+    const token = '<%= token %>';
+    const controlador = crearControladorEstado(token);
+    window.cambiarEstadoJuego = controlador.cambiarEstadoJuego;
+    window.cambiarEstadoGiftCard = controlador.cambiarEstadoGiftCard;
+  </script>
+</div>
 
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert('Error: ' + (errorData.message || 'Error al cambiar estado'));
-        return;
-      }
-
-      alert(`Juego ${activar ? 'reactivado' : 'desactivado'} correctamente`);
-      location.reload();
-
-    } catch (err) {
-      console.error(err);
-      alert('Error de red o servidor');
-    }
-  }
-
-  async function cambiarEstadoGiftCard(giftcardId, activar) {
-  try {
-    const url = activar
-      ? `/api/giftcards/${giftcardId}/activar`
-      : `/api/giftcards/${giftcardId}`;
-    const method = activar ? 'PUT' : 'DELETE';
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      // Intentar leer el error como json
-      let errorData;
-      try {
-        errorData = await response.json();
-      } catch {
-        errorData = { message: 'No se pudo interpretar el error del servidor' };
-      }
-      // Mostrar mensaje específico si existe o el objeto completo
-      alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
-      return;
-    }
-
-    alert(`GiftCard ${activar ? 'reactivada' : 'desactivada'} correctamente`);
-    location.reload();
-
-  } catch (err) {
-    console.error(err);
-    alert('Error de red o servidor: ' + err.message);
-  }
-}
-</script>
 
 <%- include('../partes/footer') %>

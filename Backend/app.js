@@ -6,6 +6,7 @@ const path = require('path');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const cors = require('cors');
+app.use(express.static('public'));
 
 // Configuración de CORS (para que el frontend pueda consumir la API)
 

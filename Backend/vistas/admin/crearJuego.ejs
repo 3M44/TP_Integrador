@@ -1,45 +1,69 @@
 <%- include('../partes/header') %>
 
 <h1>Agregar Nuevo Juego</h1>
+<div class="container mt-4">
+  <h2 class="mb-4">Crear Juego</h2>
 
-<form id="formCrearJuego" enctype="multipart/form-data">
-    <label for="nombre">Nombre:</label>
-    <input type="text" name="nombre" required>
+  <form id="formCrearJuego" enctype="multipart/form-data" class="row g-3">
+    <div class="col-md-6">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" name="nombre" class="form-control" required>
+    </div>
 
-    <label for="precio">Precio:</label>
-    <input type="number" name="precio" step="0.01" required>
+    <div class="col-md-6">
+      <label for="precio" class="form-label">Precio</label>
+      <input type="number" name="precio" step="0.01" class="form-control" required>
+    </div>
 
-    <label for="descripcion">Descripción:</label>
-    <textarea name="descripcion"></textarea>
+    <div class="col-md-12">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea name="descripcion" rows="3" class="form-control"></textarea>
+    </div>
 
-    <label for="stock">Stock:</label>
-    <input type="number" name="stock" required>
+    <div class="col-md-6">
+      <label for="stock" class="form-label">Stock</label>
+      <input type="number" name="stock" class="form-control" required>
+    </div>
 
-    <label for="empresa">Empresa:</label>
-    <input type="text" name="empresa">
+    <div class="col-md-6">
+      <label for="empresa" class="form-label">Empresa</label>
+      <input type="text" name="empresa" class="form-control">
+    </div>
 
-    <label for="consola">Consola:</label>
-    <input type="text" name="consola">
+    <div class="col-md-6">
+      <label for="consola" class="form-label">Consola</label>
+      <input type="text" name="consola" class="form-control">
+    </div>
 
-    <label for="fecha_lanzamiento">Fecha de Lanzamiento:</label>
-    <input type="date" name="fecha_lanzamiento">
+    <div class="col-md-6">
+      <label for="fecha_lanzamiento" class="form-label">Fecha de Lanzamiento</label>
+      <input type="date" name="fecha_lanzamiento" class="form-control">
+    </div>
 
-    <label for="requerimientos_minimos">Requisitos:</label>
-    <input type="text" name="requerimientos_minimos">
+    <div class="col-md-12">
+      <label for="requerimientos_minimos" class="form-label">Requisitos</label>
+      <input type="text" name="requerimientos_minimos" class="form-control">
+    </div>
 
-    <label for="plataformas_disponibles">Plataformas:</label>
-    <input type="text" name="plataformas_disponibles">
+    <div class="col-md-12">
+      <label for="plataformas_disponibles" class="form-label">Plataformas</label>
+      <input type="text" name="plataformas_disponibles" class="form-control">
+    </div>
 
-    <label for="imagen">Imagen:</label>
-    <input type="file" name="imagen">
+    <div class="col-md-12">
+      <label for="imagen" class="form-label">Imagen</label>
+      <input type="file" name="imagen" class="form-control">
+    </div>
 
-    <button type="submit">Crear Juego</button>
-</form>
-
-<a href="/admin/panel">Volver al Panel</a>
+    <div class="col-12 d-flex justify-content-between mt-3">
+      <a href="/admin/panelProductos" class="btn btn-secondary">Volver al Panel</a>
+      <button type="submit" class="btn btn-primary">Crear Juego</button>
+    </div>
+  </form>
+</div>
 
 <script>
-    const token = '<%= token %>'; // Asegurate de pasarlo desde el router
+    const token = '<%= token %>'; 
 
     document.getElementById('formCrearJuego').addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -52,7 +76,6 @@
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + token
-                    // No pongas 'Content-Type' porque fetch con FormData lo setea automáticamente
                 },
                 body: formData
             });
@@ -69,7 +92,7 @@
             }
 
             alert('Juego creado correctamente');
-            window.location.href = '/admin/panel'; // Redirige al panel
+            window.location.href = '/admin/panelProductos'; // Redirige al panel
 
         } catch (err) {
             console.error(err);

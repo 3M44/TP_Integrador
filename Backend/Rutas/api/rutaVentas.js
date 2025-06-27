@@ -7,7 +7,7 @@ const { verificarToken , esAdmin} = require('../../middlewares/auth');
 // Registrar venta
 router.post('/', crearVenta);
 
-// Listar ventas (opcional: solo admins)
+// Listar ventas 
 router.get('/', verificarToken, esAdmin, obtenerVentas);
 
 // Solo admin ve detalle
