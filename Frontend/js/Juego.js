@@ -12,7 +12,6 @@ class Juego {
         this.imagen = imagen;
         this.stock = stock
         this.cantidad = 0;
-        this.getAlljuegos();
     }
     
     static comprarProducto(producto) {
@@ -133,11 +132,4 @@ class Juego {
         return productoDiv;
     }   
 
-    getAlljuegos(){
-        fetch(`http://localhost:3000/api/juegos`)
-        .then(response=>response.json())
-        .then(data=>
-            localStorage.setItem('listaDeJuegos', JSON.stringify(data))
-        )
-    }
 }

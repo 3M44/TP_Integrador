@@ -57,8 +57,8 @@ async function finalizarCompra() {
 
     try {
         const body = {
-        nombreUsuario: ticket.cliente,  
-        productos: ticket.productos
+            nombre: ticket.cliente,
+            productos: ticket.productos
         };
 
         const guardarResponse = await fetch('http://localhost:3000/api/ventas', {
