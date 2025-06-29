@@ -1,34 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
-    const Usuario = sequelize.define('Usuario', {
+    const Admin = sequelize.define('Admin', {
         nombre: { type: DataTypes.STRING, allowNull: false },
         password: { 
             type: DataTypes.STRING, 
-            allowNull: true, // Solo requerido para admins
+            allowNull: false,
             validate: {
                 isLongEnough(value) {
                     if (this.rol === 'admin' && (!value || value.length < 6)) {
                         throw new Error('La contraseña de administrador debe tener al menos 6 caracteres');
                     }
-                    
                 }
             }
         },
-        rol: { 
-            type: DataTypes.STRING, 
-            allowNull: false, 
+        rol: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'admin',
             validate: {
                 isIn: {
-                    args: [['admin', 'cliente']],
-                    msg: 'El rol debe ser admin o cliente'
+                    args: [['admin']],
+                    msg: 'El rol debe ser admin'
                 }
             }
         }
     });
 
-    Usuario.associate = (models) => {
-        
-        Usuario.hasMany(models.Venta, { foreignKey: 'UsuarioId' });
-    };
-
-    return Usuario;
+    return Admin;
 }

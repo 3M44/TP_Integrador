@@ -1,33 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Usuario } = require('../../models');
+const { Admin } = require('../../models');
 
 // Generar token JWT
-const generarToken = (usuario) => {
+const generarToken = (admin) => {
     return jwt.sign(
-        { id: usuario.id, nombre: usuario.nombre, rol: usuario.rol },
+        { id: admin.id, nombre: admin.nombre, rol: admin.rol },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );
 };
 
-// Registrar cliente (solo nombre)
-exports.registrarCliente = async (req, res) => {
-    const { nombre } = req.body;
-
-    if (!nombre) return res.status(400).json({ error: 'El nombre es obligatorio.' });
-
-    try {
-        // Validar que no exista otro cliente o admin con el mismo nombre
-        const usuarioExistente = await Usuario.findOne({ where: { nombre } });
-        if (usuarioExistente) return res.status(400).json({ error: 'El nombre ya está en uso.' });
-
-        const nuevoCliente = await Usuario.create({ nombre, rol: 'cliente' });
-        res.status(201).json({ mensaje: 'Cliente registrado', rol: nuevoCliente.rol });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al registrar cliente.' });
-    }
-};
 
 // Registrar administrador (nombre y contraseña)
 exports.registrarAdmin = async (req, res) => {
@@ -36,16 +19,16 @@ exports.registrarAdmin = async (req, res) => {
     if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
 
     try {
-        // Validar que no exista otro usuario con ese nombre
-        const usuarioExistente = await Usuario.findOne({ where: { nombre } });
+        // Validar que no exista otro admin con ese nombre
+        const usuarioExistente = await Admin.findOne({ where: { nombre } });
         if (usuarioExistente) return res.status(400).json({ error: 'El nombre ya está en uso.' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const nuevoAdmin = await Usuario.create({ nombre, password: hashedPassword, rol: 'admin' });
+        const nuevoAdmin = await Admin.create({ nombre, password: hashedPassword, rol: 'admin' });
         const token = generarToken(nuevoAdmin);
             // Guardar token en sesión para usarlo en vistas
         req.session.token = token;
-        req.session.usuario = { id: usuario.id, nombre: usuario.nombre, rol: usuario.rol };
+        req.session.admin = { id: nuevoAdmin.id, nombre: nuevoAdmin.nombre, rol: nuevoAdmin.rol };
         res.status(201).json({ mensaje: 'Administrador registrado', token, rol: nuevoAdmin.rol });
     } catch (error) {
         res.status(500).json({ error: 'Error al registrar administrador.' });
@@ -59,10 +42,10 @@ exports.login = async (req, res) => {
   if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
 
   try {
-    const admin = await Usuario.findOne({ where: { nombre, rol: 'admin' } });
+    const admin = await Admin.findOne({ where: { nombre, rol: 'admin' } });
 
     if (!admin) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: 'admin no encontrado' });
     }
 
     const passwordValida = await bcrypt.compare(password, admin.password);
@@ -98,9 +81,9 @@ exports.loginVista = async (req, res) => {
     }
 
     try {
-        const admin = await Usuario.findOne({ where: { nombre, rol: 'admin' } });
+        const admin = await Admin.findOne({ where: { nombre, rol: 'admin' } });
 
-        if (!admin) return res.render('admin/login', { error: 'Usuario no encontrado' });
+        if (!admin) return res.render('admin/login', { error: 'admin no encontrado' });
 
         const passwordValida = await bcrypt.compare(password, admin.password);
 
@@ -109,7 +92,7 @@ exports.loginVista = async (req, res) => {
         
         const token = generarToken(admin);
         req.session.token = token;
-        req.session.usuario = { id: admin.id, nombre: admin.nombre, rol: admin.rol };
+        req.session.admin = { id: admin.id, nombre: admin.nombre, rol: admin.rol };
 
        
         return res.redirect('/admin/panelProductos');

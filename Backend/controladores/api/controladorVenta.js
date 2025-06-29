@@ -1,69 +1,66 @@
-const { Venta, VentaProducto, Juego, GiftCard, Usuario } = require('../../models');
+const { Venta, VentaProducto, Juego, GiftCard, Cliente } = require('../../models');
+
+
 
 exports.crearVenta = async (req, res) => {
   try {
-    const { nombreUsuario, productos } = req.body;
+    const { nombre, productos } = req.body;
 
-    // Buscar usuario por nombre en vez de por id
-    const usuario = await Usuario.findOne({ where: { nombre: nombreUsuario } });
-    if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
-
-    const usuarioId = usuario.id;
+    // Crear cliente (podés modificar para buscar primero si querés)
+    let cliente = await Cliente.create({ nombre });
+    const clienteId = cliente.id;
 
     let total = 0;
 
     // Validar stock y calcular total
     for (const prod of productos) {
-      let producto;
+      let producto = await Juego.findOne({ where: { nombre: prod.nombre } });
+      let tipoProducto = 'Juego';
 
-      if ('puntuacion_general' in prod)  {
-        producto = await Juego.findByPk(prod.id);
-      } else if ('fecha_caducidad' in prod)  {
-        producto = await GiftCard.findByPk(prod.id);
-      } else {
-        return res.status(400).json({ message: 'Tipo de producto inválido' });
+      if (!producto) {
+        producto = await GiftCard.findOne({ where: { nombre: prod.nombre } });
+        tipoProducto = 'GiftCard';
       }
 
       if (!producto) {
-        return res.status(404).json({ message: `El producto con ID ${prod.id} no encontrado` });
+        return res.status(404).json({ message: `Producto con nombre ${prod.nombre} no encontrado` });
       }
 
       if (producto.stock < prod.cantidad) {
-        return res.status(400).json({ message: `Stock insuficiente para el producto con ID ${prod.id}` });
+        return res.status(400).json({ message: `Stock insuficiente para el producto ${prod.nombre}` });
       }
 
       total += producto.precio * prod.cantidad;
     }
 
-    // Crear la venta
-    const venta = await Venta.create({ total, UsuarioId: usuarioId });
+    // Crear venta
+    const venta = await Venta.create({ total, ClienteId: clienteId });
 
-    // Crear detalles de venta y actualizar stock
+    // Crear detalles y actualizar stock
     for (const prod of productos) {
-      let producto;
+      let producto = await Juego.findOne({ where: { nombre: prod.nombre } });
+      let tipoProducto = 'Juego';
 
-      if ('puntuacion_general' in prod) {
-        producto = await Juego.findByPk(prod.id);
-      } else {
-        producto = await GiftCard.findByPk(prod.id);
+      if (!producto) {
+        producto = await GiftCard.findOne({ where: { nombre: prod.nombre } });
+        tipoProducto = 'GiftCard';
       }
 
       const subtotal = producto.precio * prod.cantidad;
 
       await VentaProducto.create({
-        productoId: prod.id,
-        productoTipo: 'puntuacion_general' in prod ? 'Juego' : 'GiftCard',
+        productoId: producto.id,
+        productoTipo: tipoProducto,
         cantidad: prod.cantidad,
         subtotal,
         VentaId: venta.id
       });
 
-      // Actualizar stock
       producto.stock -= prod.cantidad;
       await producto.save();
     }
 
-    res.status(201).json({ message: 'Venta registrada correctamente'});
+    res.status(201).json({ message: 'Venta registrada correctamente' });
 
   } catch (error) {
     console.error('Error al registrar la venta:', error);
@@ -75,7 +72,7 @@ exports.obtenerVentas = async (req, res) => {
   try {
     const ventas = await Venta.findAll({
       include: [
-        { model: Usuario, attributes: ['id', 'nombre'] },
+        { model: Cliente, attributes: ['id', 'nombre'] },
         { model: VentaProducto }
       ]
     });
@@ -91,7 +88,7 @@ exports.obtenerDetalleVenta = async (req, res) => {
   try {
     const venta = await Venta.findByPk(id, {
       include: [
-        { model: Usuario, attributes: ['id', 'nombre'] },
+        { model: Cliente, attributes: ['id', 'nombre'] },
         { model: VentaProducto }
       ]
     });

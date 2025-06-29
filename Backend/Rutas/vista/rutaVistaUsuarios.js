@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Usuario } = require('../../models');
+const { Admin } = require('../../models');
 const bcrypt = require('bcrypt');
 const { loginVista } = require('../../controladores/api/controladorAuth');
 

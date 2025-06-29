@@ -9,7 +9,7 @@ exports.verificarToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.usuario = decoded; // Queda disponible para middlewares y controladores
+        req.admin = decoded; // Queda disponible para middlewares y controladores
         next();
     } catch (error) {
         res.status(400).json({ error: 'Token inválido' });
@@ -18,7 +18,7 @@ exports.verificarToken = (req, res, next) => {
 
 // Middleware para verificar si el usuario es admin
 exports.esAdmin = (req, res, next) => {
-    if (!req.usuario || req.usuario.rol !== 'admin') {
+    if (!req.admin || req.admin.rol !== 'admin') {
         return res.status(403).json({ error: 'Acceso denegado. Requiere rol de administrador.' });
     }
     next();

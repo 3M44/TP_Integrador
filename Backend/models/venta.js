@@ -5,10 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Venta.associate = (models) => {
-        Venta.belongsTo(models.Usuario, { foreignKey: 'UsuarioId' });
-        models.Usuario.hasMany(Venta, { foreignKey: 'UsuarioId' });
-        Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' });
-    };
+    Venta.belongsTo(models.Cliente, { foreignKey: 'ClienteId' }); // ✔️
+    models.Cliente.hasMany(Venta, { foreignKey: 'ClienteId' });   // ✔️
+    
+    Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' }); // ✔️ CORREGIDO
+};
 
     return Venta;
 };
