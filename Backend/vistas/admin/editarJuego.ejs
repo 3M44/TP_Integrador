@@ -4,8 +4,8 @@
 <div class="container mt-4">
   <h1 class="mb-4">Editar Juego: <%= juego.nombre %></h1>
 
-  <form id="formEditarJuego" enctype="multipart/form-data" class="row g-3">
-    <input type="hidden" name="juegoId" value="<%= juego.id %>">
+ <form id="formEditarJuego" enctype="multipart/form-data" class="row g-3" data-token="<%= token %>">
+  <input type="hidden" name="juegoId" value="<%= juego.id %>">
 
     <div class="col-md-6">
       <label for="nombre" class="form-label">Nombre</label>
@@ -70,45 +70,12 @@
     </div>
 
     <div class="col-12 d-flex justify-content-between mt-3">
-      <a href="/admin/panelProductos" class="btn btn-secondary">Volver al Panel</a>
-      <button type="submit" class="btn btn-primary">Actualizar Juego</button>
-    </div>
-  </form>
+    <a href="/admin/panelProductos" class="btn btn-secondary">Volver al Panel</a>
+    <button type="submit" class="btn btn-primary">Actualizar Juego</button>
+  </div>
+</form>
 </div>
 
-<script>
-    const token = '<%= token %>'; // El token debe ser pasado desde el backend
-
-    document.getElementById('formEditarJuego').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = new FormData(form);
-        const juegoId = formData.get('juegoId');
-
-        try {
-            const response = await fetch(`/api/juegos/${juegoId}/actualizar`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                alert('Error: ' + (errorData.message || 'Error al actualizar el juego'));
-                return;
-            }
-
-            alert('Juego actualizado correctamente');
-            window.location.href = '/admin/panelProductos'; // Redirige al panel
-
-        } catch (err) {
-            console.error(err);
-            alert('Error de red o servidor');
-        }
-    });
-</script>
+<script src="/js/editarJuego.js"></script>
 
 <%- include('../partes/footer') %>

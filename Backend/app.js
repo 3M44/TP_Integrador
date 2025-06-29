@@ -1,3 +1,5 @@
+//Carga de módulos escenciales para funcionamiento del servidor
+
 const express = require('express');
 const app = express();
 require('dotenv').config();

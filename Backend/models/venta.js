@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Venta.associate = (models) => {
-    Venta.belongsTo(models.Cliente, { foreignKey: 'ClienteId' }); // ✔️
-    models.Cliente.hasMany(Venta, { foreignKey: 'ClienteId' });   // ✔️
+    Venta.belongsTo(models.Cliente, { foreignKey: 'ClienteId' }); 
+    models.Cliente.hasMany(Venta, { foreignKey: 'ClienteId' });  
     
-    Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' }); // ✔️ CORREGIDO
+    Venta.hasMany(models.VentaProducto, { foreignKey: 'VentaId' }); 
 };
 
     return Venta;

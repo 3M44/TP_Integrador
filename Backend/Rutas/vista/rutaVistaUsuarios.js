@@ -9,6 +9,9 @@ const { loginVista } = require('../../controladores/api/controladorAuth');
 router.get('/login', (req, res) => {
     res.render('admin/login', { error: null });
 });
+router.get('/', (req, res) => {
+  res.redirect('/login');
+});
 
 // POST login EJS
 router.post('/login', loginVista);

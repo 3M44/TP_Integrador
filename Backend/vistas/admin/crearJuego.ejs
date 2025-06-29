@@ -4,7 +4,7 @@
 <div class="container mt-4">
   <h2 class="mb-4">Crear Juego</h2>
 
-  <form id="formCrearJuego" enctype="multipart/form-data" class="row g-3">
+  <form id="formCrearJuego" enctype="multipart/form-data" class="row g-3" data-token="<%= token %>">
     <div class="col-md-6">
       <label for="nombre" class="form-label">Nombre</label>
       <input type="text" name="nombre" class="form-control" required>
@@ -62,43 +62,6 @@
   </form>
 </div>
 
-<script>
-    const token = '<%= token %>'; 
-
-    document.getElementById('formCrearJuego').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = new FormData(form);
-
-        try {
-            const response = await fetch('/api/juegos/subirJuego', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-                body: formData
-            });
-
-            if (!response.ok) {
-                let errorData;
-                try {
-                    errorData = await response.json();
-                } catch {
-                    errorData = { message: 'No se pudo interpretar el error del servidor' };
-                }
-                alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
-                return;
-            }
-
-            alert('Juego creado correctamente');
-            window.location.href = '/admin/panelProductos'; // Redirige al panel
-
-        } catch (err) {
-            console.error(err);
-            alert('Error de red o servidor: ' + err.message);
-        }
-    });
-</script>
+<script src="/js/crearJuego.js"></script>
 
 <%- include('../partes/footer') %>
