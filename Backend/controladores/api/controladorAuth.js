@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Admin } = require('../../models');
+const { Admin, Cliente } = require('../../models');
 
 // Generar token JWT
 const generarToken = (admin) => {
@@ -102,3 +102,21 @@ exports.loginVista = async (req, res) => {
         res.render('admin/login', { error: 'Error en el servidor' });
     }
 }
+
+exports.registrarCliente = async (req, res) => {
+  const { nombre } = req.body;
+  if (!nombre || !nombre.trim()) {
+    return res.status(400).json({ error: 'Nombre es obligatorio' });
+  }
+  try {
+    // Siempre creamos uno nuevo, aun con nombre repetido
+    const cliente = await Cliente.create({ nombre: nombre.trim() });
+    return res.status(201).json({
+      mensaje: 'Cliente creado',
+      cliente
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Error al crear cliente' });
+  }
+};
