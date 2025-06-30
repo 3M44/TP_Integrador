@@ -51,7 +51,11 @@ exports.crearVenta = async (req, res) => {
       await VentaProducto.create({
         productoId: producto.id,
         productoTipo: tipoProducto,
+<<<<<<< HEAD
         productoNombre: producto.nombre, 
+=======
+        productoNombre: producto.nombre,
+>>>>>>> 9127deec9595bea4d50f12f8843cd33c84154a23
         cantidad: prod.cantidad,
         subtotal,
         VentaId: venta.id

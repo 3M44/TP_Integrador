@@ -24,6 +24,7 @@ function cargarCarrito() {
         }
 
         productoDiv.innerHTML = `
+            
             <img src="${img}" alt="${producto.nombre}">
             <div>
                 <h3 class="nombre-producto" >${producto.nombre}</h3>
@@ -34,13 +35,32 @@ function cargarCarrito() {
                     <button class="sumar" data-nombre="${producto.nombre}">+</button>
                 </div>
                 <p class="subtotal">Subtotal: $${subtotal.toFixed(2)}</p>
+                <button class="Eliminar" data-nombre="${producto.nombre}">Eliminar</button>
             </div>
         `;
         contenedor.appendChild(productoDiv);
     });
     document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
     agregarEventosCantidad();
+    agregarEventoEliminar();
 }
+
+function agregarEventoEliminar() {
+    document.querySelectorAll('.Eliminar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const nombre = e.target.dataset.nombre;
+            let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
+
+            // Filtrar productos para eliminar el que tiene el nombre que clickeaste
+            productos = productos.filter(p => p.nombre !== nombre);
+
+            localStorage.setItem('productosComprados', JSON.stringify(productos));
+            cargarCarrito(); // Recargar carrito para actualizar la vista
+        });
+    });
+}
+
+
 
 function agregarEventosCantidad() {
     document.querySelectorAll('.cantidad-control').forEach(control => {
@@ -67,7 +87,13 @@ function agregarEventosCantidad() {
 }
 
 document.getElementById('pasarTickt').addEventListener('click', () => {
-    window.location.href = 'ticket.html';
+    if (confirm("¿Querés confirmar la compra?")) {
+        // Lógica para finalizar la compra
+        window.location.href = 'ticket.html';
+    } else {
+        // Lógica si cancela
+        console.log("Compra cancelada");
+    }
 });
 
 function ajustarLinks() {
