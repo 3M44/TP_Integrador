@@ -60,12 +60,17 @@
     </div>
 
     <div class="col-md-12">
-      <label for="imagen" class="form-label">Imagen</label>
-      <input type="file" id="imagen" name="imagen" class="form-control">
-      <small class="form-text text-muted">
-        Imagen actual: <%= giftcard.imagen ? giftcard.imagen : 'No disponible' %>
-      </small>
+  <label for="imagen" class="form-label">Imagen</label>
+  <input type="file" id="imagen" name="imagen" class="form-control">
+
+  <% if (giftcard.imagen) { %>
+    <div class="mt-2">
+      <p class="form-text text-muted">Imagen actual:</p>
+      <img src="<%= giftcard.imagen %>" alt="Imagen de la GiftCard" class="img-thumbnail" style="max-width: 200px;">
     </div>
+  <% } else { %>
+    <small class="form-text text-muted">Imagen actual: No disponible</small>
+  <% } %>
 
     <div class="col-12 d-flex justify-content-between mt-3">
     <a href="/admin/panelProductos" class="btn btn-secondary">Volver al listado</a>
