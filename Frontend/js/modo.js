@@ -13,7 +13,7 @@ if (savedTheme === "dark") {
   localStorage.setItem("theme", "light");
 }
 
-toggleBtn?.addEventListener("click", () => {
+toggleBtn.addEventListener("click", () => {
   body.classList.toggle("light-mode");
   const isLight = body.classList.contains("light-mode");
   localStorage.setItem("theme", isLight ? "light" : "dark");
