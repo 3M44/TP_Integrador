@@ -51,11 +51,10 @@ function agregarEventoEliminar() {
             const nombre = e.target.dataset.nombre;
             let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
 
-            // Filtrar productos para eliminar el que tiene el nombre que clickeaste
             productos = productos.filter(p => p.nombre !== nombre);
 
             localStorage.setItem('productosComprados', JSON.stringify(productos));
-            cargarCarrito(); // Recargar carrito para actualizar la vista
+            cargarCarrito();
         });
     });
 }
