@@ -75,6 +75,7 @@ exports.logout = (req, res) => {
 };
 
 exports.loginVista = async (req, res) => {
+  console.log('Entrando a loginVista...');
     const { correo, password } = req.body;
 
     if (!correo || !password) {

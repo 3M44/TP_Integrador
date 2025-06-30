@@ -1,11 +1,13 @@
-<%- include('../partes/header') %>
-
+<body id="pagina" data-bs-theme="light" style="transition: background-color 0.5s, color 0.5s;">
+  <%- include('../partes/header') %>
 
 <div class="container mt-4">
-  <h1 class="mb-4">Editar Juego: <%= juego.nombre %></h1>
+    <h1 class="mb-4">Editar Juego: <%= juego.nombre %></h1>
 
- <form id="formEditarJuego" enctype="multipart/form-data" class="row g-3" data-token="<%= token %>">
-  <input type="hidden" name="juegoId" value="<%= juego.id %>">
+    <form id="formEditarJuego" enctype="multipart/form-data" 
+          class="modoclarooscuro p-4 shadow rounded bg-light text-dark row g-3" 
+          data-token="<%= token %>">
+      <input type="hidden" name="juegoId" value="<%= juego.id %>">
 
     <div class="col-md-6">
       <label for="nombre" class="form-label">Nombre</label>
@@ -74,8 +76,12 @@
     <button type="submit" class="btn btn-primary">Actualizar Juego</button>
   </div>
 </form>
-</div>
+
+ </div>
 
 <script src="/js/editarJuego.js"></script>
+<script src="/js/validarEdicionJuego.js"></script>
+</body>
+
 
 <%- include('../partes/footer') %>

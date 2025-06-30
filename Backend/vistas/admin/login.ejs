@@ -1,36 +1,38 @@
-<%- include('../partes/header') %>
-<h2>Iniciar sesión</h2>
-<form action="/login" method="POST">
-  <label>Correo:</label>
-  <input type="email" id="correo" name="correo" required>
 
-  <label>Contraseña:</label>
-  <input type="password" id="password" name="password" required>
 
-  <button type="submit">Iniciar sesión</button>
+<body id="pagina" data-bs-theme="light" style="transition: background-color 0.5s, color 0.5s;">
+  <%- include('../partes/header') %>
 
-  <button type="button" onclick="autocompletarLogin()">Acceso rápido profesor</button>
-</form>
+ 
+  <div class="container mt-5" id="contenido">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="mb-4 text-center">Iniciar sesión</h2>
+        <% if (error) { %>
+  <div class="alert alert-danger text-center mb-3">
+    <%= error %>
+  </div>
+<% } %>
+        <form action="/login" method="POST" class="card p-4 shadow rounded">
+          <div class="mb-3">
+            <label for="correo" class="form-label">Correo:</label>
+            <input type="email" class="form-control" id="correo" name="correo" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            <button type="button" class="btn btn-secondary" onclick="autocompletarLogin()">Acceso rápido profesor</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-<script>
-  // Función que consulta el backend y autocompleta el formulario
-  async function autocompletarLogin() {
-    try {
-      const res = await fetch('/login/demo');
-      const data = await res.json();
+  <script src="/js/loginDemo.js"></script>
 
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-      document.getElementById('correo').value = data.correo;
-      document.getElementById('password').value = data.password;
-    } catch (err) {
-      console.error('Error al cargar usuario demo:', err);
-      alert('No se pudo cargar el usuario demo');
-    }
-  }
-</script>
+</body>
 
 <%- include('../partes/footer') %>

@@ -23,3 +23,12 @@ exports.esAdmin = (req, res, next) => {
     }
     next();
 };
+
+exports.verificarSesion = (req, res, next) =>{
+  if (req.session.admin) {
+    next(); // usuario autenticado
+  } else {
+    res.redirect('/login'); // no autenticado, lo mandamos a login
+  }
+}
+

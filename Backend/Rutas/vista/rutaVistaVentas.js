@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
 const { soloAdmins } = require('../../middlewares/protegerVistas');
 const {panelVentas, detalleVenta}= require('../../controladores/vistas/controladorPanelVentas');
 

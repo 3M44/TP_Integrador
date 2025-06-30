@@ -1,10 +1,15 @@
-<%- include('../partes/header') %>
+<body id="pagina" data-bs-theme="light" style="transition: background-color 0.5s, color 0.5s;">
+  <%- include('../partes/header') %>
 
 <h1>Agregar Nuevo Juego</h1>
 <div class="container mt-4">
   <h2 class="mb-4">Crear Juego</h2>
 
-  <form id="formCrearJuego" enctype="multipart/form-data" class="row g-3" data-token="<%= token %>">
+ 
+  <form id="formCrearJuego" enctype="multipart/form-data" 
+      class="modoclarooscuro p-4 shadow rounded bg-light text-dark row g-3" 
+      data-token="<%= token %>">
+
     <div class="col-md-6">
       <label for="nombre" class="form-label">Nombre</label>
       <input type="text" name="nombre" class="form-control" required>
@@ -12,7 +17,7 @@
 
     <div class="col-md-6">
       <label for="precio" class="form-label">Precio</label>
-      <input type="number" name="precio" step="0.01" class="form-control" required>
+      <input type="number" name="precio" step="0.01" min="0.01" class="form-control" required>
     </div>
 
     <div class="col-md-12">
@@ -22,7 +27,7 @@
 
     <div class="col-md-6">
       <label for="stock" class="form-label">Stock</label>
-      <input type="number" name="stock" class="form-control" required>
+      <input type="number" name="stock" min="0" class="form-control" required>
     </div>
 
     <div class="col-md-6">
@@ -51,13 +56,13 @@
     </div>
 
     <div class="col-md-12">
-      <label for="genero" class="form-label">Genero</label>
+      <label for="genero" class="form-label">Género</label>
       <input type="text" name="genero" class="form-control">
     </div>
 
     <div class="col-md-6">
-      <label for="puntuacion_general" class="form-label">Puntuacion General</label>
-      <input type="number" name="puntuacion_general" class="form-control" required>
+      <label for="puntuacion_general" class="form-label">Puntuación General</label>
+      <input type="number" name="puntuacion_general" min="1" max="10" step="0.1" class="form-control" required>
     </div>
 
     <div class="col-md-12">
@@ -71,6 +76,7 @@
     </div>
   </form>
 </div>
+
 
 <script src="/js/crearJuego.js"></script>
 

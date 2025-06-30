@@ -1,3 +1,5 @@
+<body id="pagina" data-bs-theme="light" style="transition: background-color 0.5s, color 0.5s;">
+
 <%- include('../partes/header') %>
 
 <h1>Editar Gift Card</h1>
@@ -7,7 +9,7 @@
 <div class="container mt-4">
   <h2 class="mb-4">Editar GiftCard</h2>
 
-  <form id="formEditarGiftCard" enctype="multipart/form-data" class="row g-3" data-token="<%= token %>">
+  <form id="formEditarGiftCard" enctype="multipart/form-data" class="modoclarooscuro p-4 shadow rounded bg-light text-dark row g-3" data-token="<%= token %>">
   <input type="hidden" name="giftcardId" value="<%= giftcard.id %>">
 
 
@@ -78,8 +80,9 @@
   </div>
 </form>
 
-<!-- Cargar el script externo -->
 <script src="/js/editarGiftCard.js"></script>
+<script src="/js/validarEdicionGiftCard.js"></script>
+</body>
 
 
 <%- include('../partes/footer') %>
