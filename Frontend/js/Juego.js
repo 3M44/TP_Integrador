@@ -4,8 +4,7 @@ class Juego {
         this.nombre = nombre;
         this.precio = precio;
         this.empresa = empresa;
-        this.consola = consola;
-        this.requerimientos_minimos = requerimientos_minimos;
+        this.consola = consola;        
         this.puntuacion_general = puntuacion_general;
         this.genero = genero;
         this.activo = activo;

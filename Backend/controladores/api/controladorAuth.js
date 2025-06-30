@@ -38,31 +38,6 @@ exports.registrarAdmin = async (req, res) => {
 
 
 
-exports.login = async (req, res) => {
-  const { correo, password } = req.body;
-  if (!correo || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
-
-  try {
-    const admin = await Admin.findOne({ where: { correo, rol: 'admin' } });
-
-    if (!admin) {
-      return res.status(404).json({ error: 'admin no encontrado' });
-    }
-
-    const passwordValida = await bcrypt.compare(password, admin.password);
-
-    if (!passwordValida) return res.status(401).json({ error: 'Contraseña incorrecta.' });
-
-    const token = generarToken(admin);
-
-    // No usar res.redirect acá, sino responder el token
-    return res.json({ mensaje: 'Login exitoso', token, rol: admin.rol });
-
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Error al iniciar sesión' });
-  }
-};
 
 
 exports.logout = (req, res) => {
@@ -74,6 +49,8 @@ exports.logout = (req, res) => {
     });
 };
 
+
+//Pasar a vistas--- NO FORMA PARTE DE LA API
 exports.loginVista = async (req, res) => {
   console.log('Entrando a loginVista...');
     const { correo, password } = req.body;
