@@ -67,7 +67,13 @@ function agregarEventosCantidad() {
 }
 
 document.getElementById('pasarTickt').addEventListener('click', () => {
-    window.location.href = 'ticket.html';
+    if (confirm("¿Querés confirmar la compra?")) {
+        // Lógica para finalizar la compra
+        window.location.href = 'ticket.html';
+    } else {
+        // Lógica si cancela
+        console.log("Compra cancelada");
+    }
 });
 
 function ajustarLinks() {
