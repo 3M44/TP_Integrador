@@ -1,25 +1,4 @@
-const body = document.body;
-const toggleBtn = document.getElementById('modo-btn');
-const icono = document.getElementById('icono');
 const adminBtn = document.getElementById('modo-admin');
-
-
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
-  body.classList.add('light-mode');
-  icono.textContent = '☀️';
-} else {
-  icono.textContent = '🌙'; 
-}
-
-
-toggleBtn.addEventListener('click', () => {
-  body.classList.toggle('light-mode');
-  const isLight = body.classList.contains('light-mode');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  icono.textContent = isLight ? '☀️' : '🌙';
-});
-
 
 adminBtn.addEventListener('click', () => {
   window.location.href = 'http://localhost:3000/login'; 

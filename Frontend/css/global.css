@@ -158,11 +158,12 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
+  position: relative;
 }
 
 button#modo-btn {
-  margin-left: auto;
-  font-size: 1.1rem;
+  margin-left: auto;      
+  font-size: 1.2rem;
   cursor: pointer;
   background: none;
   border: none;

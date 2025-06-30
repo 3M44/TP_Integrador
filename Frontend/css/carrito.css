@@ -77,3 +77,18 @@ h2, h4 {
     padding: 10px 0;
   }
 }
+/* Estilo por defecto: modo oscuro */
+body:not(.light-mode) h2 {
+  color: white;
+}
+body:not(.light-mode) h4 {
+  color: white;
+}
+
+/* Estilo para modo claro (sobrescribe el anterior) */
+body.light-mode h2 {
+  color: #202020;
+}
+body.light-mode h4 {
+  color: #202020;
+}
