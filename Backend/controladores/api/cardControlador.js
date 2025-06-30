@@ -123,3 +123,28 @@ exports.activarGiftCard = async (req, res) => {
         res.status(500).json({ error: 'Error al activar la giftcard' });
     }
 };
+
+exports.obtenerGiftCardsPaginadas = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;     
+    const limit = parseInt(req.query.limit) || 5;  
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await GiftCard.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']]
+    });
+
+    res.json({
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      giftcards: rows
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener las gift cards paginadas' });
+  }
+};

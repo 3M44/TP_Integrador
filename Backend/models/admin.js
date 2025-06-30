@@ -1,6 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
     const Admin = sequelize.define('Admin', {
-        nombre: { type: DataTypes.STRING, allowNull: false },
+        correo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: {
+                msg: 'Debe ser un correo válido con @'
+                }
+            }
+        },
         password: { 
             type: DataTypes.STRING, 
             allowNull: false,

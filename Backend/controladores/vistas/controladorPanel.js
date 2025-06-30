@@ -1,20 +1,44 @@
-
 const axios = require('axios');
 
-exports.panelProductos= async (req, res) => {
-    try {
-        const juegosResponse = await axios.get('http://localhost:3000/api/juegos');
-        const giftcardsResponse = await axios.get('http://localhost:3000/api/giftcards');
-        const juegos = juegosResponse.data;
-        const giftcards = giftcardsResponse.data;
+exports.panelProductos = async (req, res) => {
+  try {
+    const token = req.session.token;
 
-       res.render('admin/panelProductos', {
+    // Headers con autenticación
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    const pageJuegos = parseInt(req.query.pageJuegos) || 1;
+    const pageGiftcards = parseInt(req.query.pageGiftcards) || 1;
+
+    const juegosResponse = await axios.get(`http://localhost:3000/api/juegos/paginado?page=${pageJuegos}&limit=2`, headers);
+    const giftcardsResponse = await axios.get(`http://localhost:3000/api/giftcards/paginado?page=${pageGiftcards}&limit=2`, headers);
+
+    const juegos = juegosResponse.data.juegos;
+    const juegosPagination = {
+      totalPages: juegosResponse.data.totalPages,
+      currentPage: juegosResponse.data.currentPage
+    };
+
+    const giftcards = giftcardsResponse.data.giftcards;
+    const giftcardsPagination = {
+      totalPages: giftcardsResponse.data.totalPages,
+      currentPage: giftcardsResponse.data.currentPage
+    };
+
+    res.render('admin/panelProductos', {
       juegos,
+      juegosPagination,
       giftcards,
-      token: req.session.token // PASAR EL TOKEN JWT A LA VISTA
+      giftcardsPagination,
+      token
     });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error al cargar el panel de administración.');
-    }
-}
+  } catch (error) {
+    console.error(error.response?.data || error);
+    res.status(500).send('Error al cargar el panel de administración.');
+  }
+};
+

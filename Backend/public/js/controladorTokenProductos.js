@@ -1,9 +1,11 @@
-// public/js/estadoProductos.js
 
 export function crearControladorEstado(token) {
+
   async function cambiarEstadoJuego(juegoId, activar) {
     try {
-      const url = activar ? `/api/juegos/${juegoId}/activar` : `/api/juegos/${juegoId}`;
+      const url = activar 
+        ? `/api/juegos/${juegoId}/activar` 
+        : `/api/juegos/${juegoId}`;
       const method = activar ? 'PUT' : 'DELETE';
 
       const response = await fetch(url, {
@@ -15,23 +17,24 @@ export function crearControladorEstado(token) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         alert('Error: ' + (errorData.message || 'Error al cambiar estado del juego'));
         return;
       }
 
       alert(`Juego ${activar ? 'reactivado' : 'desactivado'} correctamente`);
       location.reload();
-    } catch (err) {
-      console.error(err);
+
+    } catch (error) {
+      console.error(error);
       alert('Error de red o servidor');
     }
   }
 
   async function cambiarEstadoGiftCard(giftcardId, activar) {
     try {
-      const url = activar
-        ? `/api/giftcards/${giftcardId}/activar`
+      const url = activar 
+        ? `/api/giftcards/${giftcardId}/activar` 
         : `/api/giftcards/${giftcardId}`;
       const method = activar ? 'PUT' : 'DELETE';
 
@@ -44,23 +47,17 @@ export function crearControladorEstado(token) {
       });
 
       if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch {
-          errorData = { message: 'No se pudo interpretar el error del servidor' };
-        }
-
-        alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
+        const errorData = await response.json().catch(() => ({}));
+        alert('Error: ' + (errorData.message || 'Error al cambiar estado de la giftcard'));
         return;
       }
 
       alert(`GiftCard ${activar ? 'reactivada' : 'desactivada'} correctamente`);
       location.reload();
 
-    } catch (err) {
-      console.error(err);
-      alert('Error de red o servidor: ' + err.message);
+    } catch (error) {
+      console.error(error);
+      alert('Error de red o servidor');
     }
   }
 

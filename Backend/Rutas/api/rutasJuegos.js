@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { crearJuego, obtenerJuegos, obtenerJuegosActivos, actualizarJuego, desactivarJuego, activarJuego } = require('../../controladores/api/juegoControlador');
+const { crearJuego, obtenerJuegos, obtenerJuegosActivos, actualizarJuego, desactivarJuego, activarJuego, obtenerJuegosPaginados } = require('../../controladores/api/juegoControlador');
 const { verificarToken, esAdmin } = require('../../middlewares/auth');
 const { imagenJuegos } = require('../../middlewares/cargarImagenes');
 
 // CRUD protegido por admin
 router.post('/subirJuego', verificarToken, esAdmin, imagenJuegos.single('imagen'), crearJuego); // Protegido por rol
+
+router.get('/paginado', verificarToken, esAdmin, obtenerJuegosPaginados);
 router.get('/', obtenerJuegos); // Disponible para todos
 router.get('/activos', obtenerJuegosActivos); // Disponible para todos
 router.put('/:id/actualizar', verificarToken, esAdmin, imagenJuegos.single('imagen'), actualizarJuego); // Protegido por rol

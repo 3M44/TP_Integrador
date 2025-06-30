@@ -1,31 +1,36 @@
 <%- include('../partes/header') %>
+<h2>Iniciar sesión</h2>
+<form action="/login" method="POST">
+  <label>Correo:</label>
+  <input type="email" id="correo" name="correo" required>
 
-<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-  <div class="card p-4" style="width: 100%; max-width: 400px;">
-    <h1 class="card-title text-center mb-4">Iniciar Sesión</h1>
+  <label>Contraseña:</label>
+  <input type="password" id="password" name="password" required>
 
-    <% if (error) { %>
-      <div class="alert alert-danger" role="alert">
-        <%= error %>
-      </div>
-    <% } %>
+  <button type="submit">Iniciar sesión</button>
 
-    <form action="/login" method="POST" class="row g-3">
-      <div class="col-12">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" id="nombre" name="nombre" class="form-control" required />
-      </div>
+  <button type="button" onclick="autocompletarLogin()">Acceso rápido profesor</button>
+</form>
 
-      <div class="col-12">
-        <label for="password" class="form-label">Contraseña</label>
-        <input type="password" id="password" name="password" class="form-control" required />
-      </div>
+<script>
+  // Función que consulta el backend y autocompleta el formulario
+  async function autocompletarLogin() {
+    try {
+      const res = await fetch('/login/demo');
+      const data = await res.json();
 
-      <div class="col-12 d-grid mt-3">
-        <button type="submit" class="btn btn-primary">Ingresar</button>
-      </div>
-    </form>
-  </div>
-</div>
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
+      document.getElementById('correo').value = data.correo;
+      document.getElementById('password').value = data.password;
+    } catch (err) {
+      console.error('Error al cargar usuario demo:', err);
+      alert('No se pudo cargar el usuario demo');
+    }
+  }
+</script>
 
 <%- include('../partes/footer') %>

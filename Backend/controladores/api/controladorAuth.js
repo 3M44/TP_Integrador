@@ -5,7 +5,7 @@ const { Admin, Cliente } = require('../../models');
 // Generar token JWT
 const generarToken = (admin) => {
     return jwt.sign(
-        { id: admin.id, nombre: admin.nombre, rol: admin.rol },
+        { id: admin.id, correo: admin.correo, rol: admin.rol },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
     );
@@ -14,21 +14,22 @@ const generarToken = (admin) => {
 
 // Registrar administrador (nombre y contraseña)
 exports.registrarAdmin = async (req, res) => {
-    const { nombre, password } = req.body;
+    const { correo } = req.body;
+    const password = '123456'; // Contraseña fija para testers
 
-    if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
+    if (!correo || !password) return res.status(400).json({ error: 'correo y contraseña son obligatorios.' });
 
     try {
         // Validar que no exista otro admin con ese nombre
-        const usuarioExistente = await Admin.findOne({ where: { nombre } });
-        if (usuarioExistente) return res.status(400).json({ error: 'El nombre ya está en uso.' });
+        const usuarioExistente = await Admin.findOne({ where: { correo } });
+        if (usuarioExistente) return res.status(400).json({ error: 'El correo ya está en uso.' });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const nuevoAdmin = await Admin.create({ nombre, password: hashedPassword, rol: 'admin' });
+        const nuevoAdmin = await Admin.create({ correo, password: hashedPassword, rol: 'admin' });
         const token = generarToken(nuevoAdmin);
             // Guardar token en sesión para usarlo en vistas
         req.session.token = token;
-        req.session.admin = { id: nuevoAdmin.id, nombre: nuevoAdmin.nombre, rol: nuevoAdmin.rol };
+        req.session.admin = { id: nuevoAdmin.id, correo: nuevoAdmin.correo, rol: nuevoAdmin.rol };
         res.status(201).json({ mensaje: 'Administrador registrado', token, rol: nuevoAdmin.rol });
     } catch (error) {
         res.status(500).json({ error: 'Error al registrar administrador.' });
@@ -38,11 +39,11 @@ exports.registrarAdmin = async (req, res) => {
 
 
 exports.login = async (req, res) => {
-  const { nombre, password } = req.body;
-  if (!nombre || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
+  const { correo, password } = req.body;
+  if (!correo || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
 
   try {
-    const admin = await Admin.findOne({ where: { nombre, rol: 'admin' } });
+    const admin = await Admin.findOne({ where: { correo, rol: 'admin' } });
 
     if (!admin) {
       return res.status(404).json({ error: 'admin no encontrado' });
@@ -74,14 +75,14 @@ exports.logout = (req, res) => {
 };
 
 exports.loginVista = async (req, res) => {
-    const { nombre, password } = req.body;
+    const { correo, password } = req.body;
 
-    if (!nombre || !password) {
-        return res.render('admin/login', { error: 'Nombre y contraseña son obligatorios.' });
+    if (!correo || !password) {
+        return res.render('admin/login', { error: 'correo y contraseña son obligatorios.' });
     }
 
     try {
-        const admin = await Admin.findOne({ where: { nombre, rol: 'admin' } });
+        const admin = await Admin.findOne({ where: { correo, rol: 'admin' } });
 
         if (!admin) return res.render('admin/login', { error: 'admin no encontrado' });
 
@@ -92,7 +93,7 @@ exports.loginVista = async (req, res) => {
         
         const token = generarToken(admin);
         req.session.token = token;
-        req.session.admin = { id: admin.id, nombre: admin.nombre, rol: admin.rol };
+        req.session.admin = { id: admin.id, nombre: admin.correo, rol: admin.rol };
 
        
         return res.redirect('/admin/panelProductos');
@@ -118,5 +119,25 @@ exports.registrarCliente = async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Error al crear cliente' });
+  }
+};
+
+
+
+exports.usuarioDemo = async (req, res) => {
+  try {
+    const primerAdmin = await Admin.findOne({
+      attributes: ['correo'], // traer solo el correo
+      order: [['id', 'ASC']]
+    });
+
+    if (!primerAdmin) {
+      return res.status(404).json({ error: 'No se encontró ningún admin' });
+    }
+
+    res.json({ correo: primerAdmin.correo, password: '123456' }); // devuelvo el correo y una password fija para demo
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno' });
   }
 };

@@ -120,3 +120,28 @@ exports.activarJuego = async (req, res) => {
         res.status(500).json({ error: 'Error al activar el juego' });
     }
 };
+
+exports.obtenerJuegosPaginados = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;     
+    const limit = parseInt(req.query.limit) || 5;  
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Juego.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']]
+    });
+
+    res.json({
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      juegos: rows
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener los juegos paginados' });
+  }
+};
