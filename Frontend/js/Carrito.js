@@ -18,9 +18,9 @@ function cargarCarrito() {
         total += subtotal;
 
         if (producto.genero){
-            img = `http://localhost:3000/imagenes/juegos/${producto.imagen}`;
+            img = `http://localhost:3000${producto.imagen}`;
         } else {
-            img = `http://localhost:3000/imagenes/giftcards/${producto.imagen}`;
+            img = `http://localhost:3000${producto.imagen}`;
         }
 
         productoDiv.innerHTML = `
