@@ -16,19 +16,11 @@ exports.verificarToken = (req, res, next) => {
     }
 };
 
-// Middleware para verificar si el usuario es admin
+// Middleware para verificar si el usuario es admin- Para API
 exports.esAdmin = (req, res, next) => {
     if (!req.admin || req.admin.rol !== 'admin') {
         return res.status(403).json({ error: 'Acceso denegado. Requiere rol de administrador.' });
     }
     next();
 };
-
-exports.verificarSesion = (req, res, next) =>{
-  if (req.session.admin) {
-    next(); // usuario autenticado
-  } else {
-    res.redirect('/login'); // no autenticado, lo mandamos a login
-  }
-}
 
