@@ -6,7 +6,7 @@ exports.crearVenta = async (req, res) => {
   try {
     const { nombre, productos } = req.body;
 
-    // Crear cliente (podés modificar para buscar primero si querés)
+    // Crea cliente 
     let cliente = await Cliente.create({ nombre });
     const clienteId = cliente.id;
 

@@ -82,6 +82,7 @@ exports.loginVista = async (req, res) => {
     }
 }
 
+//Registro de cliente. Usado en generacion de ventas
 exports.registrarCliente = async (req, res) => {
   const { nombre } = req.body;
   if (!nombre || !nombre.trim()) {
@@ -101,7 +102,7 @@ exports.registrarCliente = async (req, res) => {
 };
 
 
-
+//Para permitir el boton de prueba
 exports.usuarioDemo = async (req, res) => {
   try {
     const primerAdmin = await Admin.findOne({

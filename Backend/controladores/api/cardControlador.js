@@ -29,7 +29,7 @@ exports.crearGiftCard = async (req, res) => {
         // Devolver el tipo de error y el detalle
         return res.status(500).json({
             mensaje: 'Error al crear la giftcard',
-            nombre: error.name,          // Tipo de error, por ejemplo: SequelizeValidationError
+            nombre: error.name,          
             errores: error.errors || [], // Detalle de los campos si existen
         });
     }
@@ -123,6 +123,8 @@ exports.activarGiftCard = async (req, res) => {
         res.status(500).json({ error: 'Error al activar la giftcard' });
     }
 };
+
+//Para paginacion
 
 exports.obtenerGiftCardsPaginadas = async (req, res) => {
   try {
