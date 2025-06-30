@@ -10,56 +10,38 @@ class Juego {
         this.genero = genero;
         this.activo = activo;
         this.imagen = imagen;
-        this.stock = stock
+        this.stock = stock;
         this.cantidad = 0;
     }
-    
+
     static comprarProducto(producto) {
         console.log("Producto comprado:", producto);
         let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-        const existente = productos.find(p => p.id === producto.id);
+        const existente = productos.find(p => p.id === producto.id && p.tipo === 'Juego');
 
         if (existente) {
             if (existente.cantidad < producto.stock) {
                 existente.cantidad += 1;
             }
         } else {
-            productos.push({ ...producto, cantidad: 1 });
+            productos.push({ ...producto, tipo: 'Juego', cantidad: 1 });
         }
 
         localStorage.setItem('productosComprados', JSON.stringify(productos));
     }
-
 
     static sacarProducto(producto) {
-    let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-    const existente = productos.find(p => p.id === producto.id);
+        let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
+        const existente = productos.find(p => p.id === producto.id && p.tipo === 'Juego');
 
-    if (existente) {
-        if (existente.cantidad > 1) {
-            existente.cantidad -= 1;
-        } else {
-            productos = productos.filter(p => p.id !== producto.id);
+        if (existente) {
+            if (existente.cantidad > 1) {
+                existente.cantidad -= 1;
+            } else {
+                productos = productos.filter(p => !(p.id === producto.id && p.tipo === 'Juego'));
+            }
+            localStorage.setItem('productosComprados', JSON.stringify(productos));
         }
-        localStorage.setItem('productosComprados', JSON.stringify(productos));
-        console.log("Producto actualizado o eliminado:", productos);
-    }
-    }
-
-    toJsonString() {
-        return JSON.stringify({
-            id: this.id,
-            nombre: this.nombre,
-            precio: this.precio,
-            imagen: this.imagen,
-            genero: this.genero,
-            activo: this.activo
-        });
-    }
-
-    static createFromJsonString(json) {
-        const data = JSON.parse(json);
-        return new Juego(data.id, data.nombre, data.precio, data.imagen, data.genero, data.activo);
     }
 
     createHTMLElement() {
@@ -67,8 +49,7 @@ class Juego {
         productoDiv.className = 'tarjeta-producto';
 
         const imagen = document.createElement('img');
-        console.log(this.imagen)
-        imagen.src = 'http://localhost:3000' + this.imagen; 
+        imagen.src = 'http://localhost:3000' + this.imagen;
         imagen.alt = this.nombre;
         imagen.className = 'img-producto';
 
@@ -79,7 +60,7 @@ class Juego {
         precio.textContent = `Precio: $${this.precio}`;
 
         const genero = document.createElement('p');
-        genero.textContent = `Genero: ${this.genero}`;
+        genero.textContent = `Género: ${this.genero}`;
 
         const empresa = document.createElement('p');
         empresa.textContent = `Empresa: ${this.empresa}`;
@@ -93,10 +74,10 @@ class Juego {
         const puntuacion = document.createElement('p');
         puntuacion.textContent = `Puntuación: ${this.puntuacion_general}`;
 
-       const cantidadSpan = document.createElement('span');
+        const cantidadSpan = document.createElement('span');
         let productosEnCarrito = JSON.parse(localStorage.getItem('productosComprados')) || [];
-        let productoEnCarrito = productosEnCarrito.find(p => p.id === this.id);
-        const cantidadActual = productoEnCarrito ? productoEnCarrito.cantidad : 0; 
+        let productoEnCarrito = productosEnCarrito.find(p => p.id === this.id && p.tipo === 'Juego');
+        const cantidadActual = productoEnCarrito ? productoEnCarrito.cantidad : 0;
         cantidadSpan.textContent = `Cantidad: ${cantidadActual}`;
 
         const guardarBtn = document.createElement('button');
@@ -104,8 +85,8 @@ class Juego {
         guardarBtn.addEventListener('click', () => {
             Juego.comprarProducto(this);
             let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-            let prodActual = productos.find(p => p.id === this.id);
-            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.cantidad : 0}`; 
+            let prodActual = productos.find(p => p.id === this.id && p.tipo === 'Juego');
+            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.cantidad : 0}`;
         });
 
         const restarBtn = document.createElement('button');
@@ -113,10 +94,9 @@ class Juego {
         restarBtn.addEventListener('click', () => {
             Juego.sacarProducto(this);
             let productos = JSON.parse(localStorage.getItem('productosComprados')) || [];
-            let prodActual = productos.find(p => p.id === this.id);
-            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.cantidad : 0}`; 
+            let prodActual = productos.find(p => p.id === this.id && p.tipo === 'Juego');
+            cantidadSpan.textContent = `Cantidad: ${prodActual ? prodActual.cantidad : 0}`;
         });
-
 
         productoDiv.appendChild(imagen);
         productoDiv.appendChild(nombre);
@@ -131,6 +111,5 @@ class Juego {
         productoDiv.appendChild(guardarBtn);
 
         return productoDiv;
-    }   
-
+    }
 }
