@@ -34,7 +34,6 @@ h2, h4 {
   text-align: center;
   margin-top: 32px;
   margin-bottom: 16px;
-  color: #202020;
 }
 
 #pasarTickt {
@@ -90,19 +89,4 @@ h2, h4 {
     gap: 16px;
     padding: 10px 0;
   }
-}
-/* Estilo por defecto: modo oscuro */
-body:not(.light-mode) h2 {
-  color: white;
-}
-body:not(.light-mode) h4 {
-  color: white;
-}
-
-/* Estilo para modo claro (sobrescribe el anterior) */
-body.light-mode h2 {
-  color: #202020;
-}
-body.light-mode h4 {
-  color: #202020;
 }
