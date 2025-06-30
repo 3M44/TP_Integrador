@@ -16,11 +16,13 @@ main {
 }
 
 header {
+  background-color: #1a1a1a;
+  color: #f1f1f1;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
-  background-color: #202020;
-  padding: 10px 20px;
-  color: white;
+  gap: 1rem;
+  position: relative;
 }
 
 .logo {
@@ -151,18 +153,10 @@ body.light-mode .footer {
 }
 
 /* Header en modo oscuro */
-header {
-  background-color: #1a1a1a;
-  color: #f1f1f1;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-}
+
 
 button#modo-btn {
-  margin-left: auto;      
+  margin-left: 1300px;      
   font-size: 1.2rem;
   cursor: pointer;
   background: none;
