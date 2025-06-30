@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             const cards = datosCards.map(
-                prod => new GiftCard(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.requerimientos_minimos, prod.stock,  prod.fecha_caducidad, prod.plataformas_disponibles, prod.imagen, prod.activo)
+                prod => new GiftCard(prod.id, prod.nombre, prod.precio, prod.empresa, prod.consola, prod.stock,  prod.fecha_caducidad, prod.plataformas_disponibles, prod.imagen, prod.activo)
             );
 
             cards.forEach(producto => {

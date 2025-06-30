@@ -113,9 +113,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    btnFinalizar.addEventListener('click', () => {
+   btnFinalizar.addEventListener('click', () => {
+    
+    btnFinalizar.disabled = true;
+
+   
+    const textoOriginal = btnFinalizar.innerHTML;
+
+    // Cambiar contenido del botón a spinner + texto
+    btnFinalizar.innerHTML = `
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Procesando...
+    `;
+   
+    setTimeout(() => {       
+        btnFinalizar.innerHTML = textoOriginal;        
+        btnFinalizar.disabled = false;        
         finalizarCompra();
-    });
+    }, 300);
+});
 
     ajustarLinks();
     

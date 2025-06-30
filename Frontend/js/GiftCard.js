@@ -1,11 +1,10 @@
 class GiftCard {
-    constructor(id, nombre, precio, empresa, consola, requerimientos_minimos, stock, fecha_caducidad, plataformas_disponibles, imagen, activo) {
+    constructor(id, nombre, precio, empresa, consola, stock, fecha_caducidad, plataformas_disponibles, imagen, activo) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.empresa = empresa;
         this.consola = consola;
-        this.requerimientos_minimos = requerimientos_minimos;
         this.fecha_caducidad = fecha_caducidad;
         this.plataformas_disponibles = plataformas_disponibles;
         this.activo = activo;
@@ -71,7 +70,7 @@ class GiftCard {
         empresa.textContent = `Empresa: ${this.empresa}`;
 
         const consola = document.createElement('p');
-        consola.textContent = `Plataforma: ${this.consola}`;
+        consola.textContent = `Consola Principal: ${this.consola}`;
 
         const cantidadSpan = document.createElement('span');
         let productosEnCarrito = JSON.parse(localStorage.getItem('productosComprados')) || [];
