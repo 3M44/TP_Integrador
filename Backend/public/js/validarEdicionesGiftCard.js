@@ -2,16 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formEditarGiftCard");
   const stock = document.getElementById("stock");
   const precio = document.getElementById("precio");
-  const fecha = document.getElementById("fecha_caducidad");
 
-  if (!form || !stock || !precio || !fecha) return;
+  if (!form || !stock || !precio ) return; 
 
-  const hoy = new Date();
-  hoy.setDate(hoy.getDate() + 10);
-  const fechaMinima = hoy.toISOString().split("T")[0];
-
-  // Establecer fecha mínima visual
-  fecha.min = fechaMinima;
+  
 
   form.addEventListener("submit", (e) => {
     if (Number(stock.value) < 0) {
@@ -28,11 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (fecha.value < fechaMinima) {
+    if (!fecha.value) {
       e.preventDefault();
-      alert(`La fecha de caducidad debe ser al menos ${fechaMinima}`);
+      alert("Por favor, ingrese una fecha de caducidad");
       fecha.focus();
       return;
     }
+
   });
 });

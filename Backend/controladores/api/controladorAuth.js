@@ -38,6 +38,31 @@ exports.registrarAdmin = async (req, res) => {
 
 
 
+exports.login = async (req, res) => {
+  const { correo, password } = req.body;
+  if (!correo || !password) return res.status(400).json({ error: 'Nombre y contraseña son obligatorios.' });
+
+  try {
+    const admin = await Admin.findOne({ where: { correo, rol: 'admin' } });
+
+    if (!admin) {
+      return res.status(404).json({ error: 'admin no encontrado' });
+    }
+
+    const passwordValida = await bcrypt.compare(password, admin.password);
+
+    if (!passwordValida) return res.status(401).json({ error: 'Contraseña incorrecta.' });
+
+    const token = generarToken(admin);
+
+    // No usar res.redirect acá, sino responder el token
+    return res.json({ mensaje: 'Login exitoso', token, rol: admin.rol });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Error al iniciar sesión' });
+  }
+};
 
 
 exports.logout = (req, res) => {
@@ -82,7 +107,6 @@ exports.loginVista = async (req, res) => {
     }
 }
 
-//Registro de cliente. Usado en generacion de ventas
 exports.registrarCliente = async (req, res) => {
   const { nombre } = req.body;
   if (!nombre || !nombre.trim()) {
@@ -102,7 +126,7 @@ exports.registrarCliente = async (req, res) => {
 };
 
 
-//Para permitir el boton de prueba
+
 exports.usuarioDemo = async (req, res) => {
   try {
     const primerAdmin = await Admin.findOne({

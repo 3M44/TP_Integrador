@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { logout, registrarAdmin,registrarCliente,usuarioDemo } = require('../../controladores/api/controladorAuth');
+const { login, logout, registrarAdmin,registrarCliente,usuarioDemo } = require('../../controladores/api/controladorAuth');
 
 
-
+router.post('/login-admin', login);
 
 router.get('/logout', logout);
 router.post('/registrar-admin', registrarAdmin);

@@ -5,11 +5,26 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const stock = form.querySelector('#stock');
+    const precio = form.querySelector('#precio');
+
+    if (Number(stock.value) < 0) {
+      alert('El stock no puede ser menor a 0');
+      stock.focus();
+      return;
+    }
+
+    if (Number(precio.value) <= 0) {
+      alert('El precio debe ser mayor a 0');
+      precio.focus();
+      return;
+    }
+
     const formData = new FormData(form);
     const giftcardId = formData.get('giftcardId');
 
     try {
-      const response = await fetch(`/api/giftcards/${giftcardId}/modificar`, {
+      const response = await fetch(`/api/giftcards/${giftcardId}/actualizar`, {
         method: 'PUT',
         headers: {
           'Authorization': 'Bearer ' + token
@@ -18,21 +33,33 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (!response.ok) {
-        let errorData;
+        let errorMessage = `Error ${response.status}: ${response.statusText}`;
+
         try {
-          errorData = await response.json();
-        } catch {
-          errorData = { message: 'No se pudo interpretar el error del servidor' };
+          const errorData = await response.json();
+          if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        } catch (jsonError) {
+          try {
+            const text = await response.text();
+            errorMessage = `Error: ${text}`;
+          } catch (textError) {
+            errorMessage = `Error ${response.status} (sin mensaje interpretable)`;
+          }
         }
-        alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
+
+        alert(errorMessage);
         return;
       }
 
       alert('GiftCard actualizada correctamente');
       window.location.href = '/admin/panelProductos';
+
     } catch (err) {
-      console.error(err);
+      console.error('Error de red o inesperado:', err);
       alert('Error de red o servidor: ' + err.message);
     }
   });
 });
+
