@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     const stock = form.querySelector('#stock');
-    const precio = form.querySelector('#precio');
+    const precio = form.querySelector('#precio');    
+
 
     if (Number(stock.value) < 0) {
       alert('El stock no puede ser menor a 0');
@@ -33,33 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       if (!response.ok) {
-        let errorMessage = `Error ${response.status}: ${response.statusText}`;
-
+        let errorData;
         try {
-          const errorData = await response.json();
-          if (errorData.message) {
-            errorMessage = errorData.message;
-          }
-        } catch (jsonError) {
-          try {
-            const text = await response.text();
-            errorMessage = `Error: ${text}`;
-          } catch (textError) {
-            errorMessage = `Error ${response.status} (sin mensaje interpretable)`;
-          }
+          errorData = await response.json();
+        } catch {
+          errorData = { message: 'No se pudo interpretar el error del servidor' };
         }
-
-        alert(errorMessage);
+        alert('Error: ' + (errorData.message || JSON.stringify(errorData)));
         return;
       }
 
       alert('GiftCard actualizada correctamente');
       window.location.href = '/admin/panelProductos';
-
     } catch (err) {
-      console.error('Error de red o inesperado:', err);
+      console.error(err);
       alert('Error de red o servidor: ' + err.message);
     }
   });
 });
-
